@@ -1,0 +1,33 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+npm-debug.log
+node_modules
+
+config.js
+
+public/components
+
+# Ignore Mac OS desktop services store
+.DS_Store
+
+# Ignore Windows desktop setting file
+desktop.ini
+
+*.log
+
+.idea
+
+# Ignore handlebars templates not precomplied
+*.handlebars
+*.hbs
