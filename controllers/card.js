@@ -2,29 +2,46 @@ var Card = require('../models/card');
 
 exports.request = function (req, res) {
   //验证码 mock
-  // var isValidCode;
+  var code = req.body.code;
+  var isValidCode;
+  isValidCode = !!code;
   // 将制作吗存入session以备验证
-  res.redirct('/card/create');
+  if (isValidCode) {
+    res.redirect('/card');
+  } else {
+    console.log('invalid code entered');
+  }
 };
 
 exports.create = function (req, res, next) {
   var data = req.body;
+  console.log(data);
   Card.create(data, function (error, card) {
     if (error) { return next(error); }
     console.log('Card created');
-    next();
+    res.redirect('/card/' + card.id);
   });
+  // res.json(data);
 };
 
-exports.genQRcode = function (req, res) {
-
+exports.QRcode = function (req, res) {
+  res.render('qrcode');
 };
 
-exports.display = function (req, res) {
+exports.display = function (req, res, next) {
   var cardid = req.param('id');
   Card.findById(cardid, function (error, card) {
     if (error) { return next(error); }
-
+    var vcard = JSON.stringify(card.toJSON());
+    console.log(vcard);
+    res.render('card', {vcard: vcard});
   });
-  res.render('card', );
+};
+
+exports.list = function (req, res, next) {
+  if (req.params.code !== '13eta') return res.redirect('/');
+  Card.find({}, function (error, cards) {
+    if (error) { return next(error); }
+    res.render('admin/list', {cards: JSON.stringify(cards)});
+  });
 };

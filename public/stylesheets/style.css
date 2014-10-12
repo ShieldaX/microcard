@@ -1,8 +1,28 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+  /*border: 1px solid red;*/
 }
 
-a {
-  color: #00B7FF;
+.page {
+  /*padding-top: 5px;*/
 }
+
+.fa {
+  margin-right: 5px;
+}
+
+#qrcode {
+  display: inline-block;
+  margin: 10px 2px;
+  padding: 5px;
+}
+
+/*.contact{ background-position:top right; background-repeat:no-repeat; background-color: rgba(0,0,0,.8);  overflow:hidden; padding:10px; position:relative;}*/
+.contact { background-color: rgba(0,0,0,.8); color: white; border-bottom: 2px solid #eba443}
+.contact h2{ font-size:24px; line-height:30px; display:block; font-weight:normal; margin:10px 0;}
+.contact h2 span{ font-size:16px; margin-left:10px; font-weight:normal}
+.contact p.company{ line-height:25px; font-size:14px; color:#eba443}
+.contact ul{ margin:15px 0; overflow:hidden; padding: 0;}
+.contact ul li{ float:left; font-size:14px; height:25px;white-space:nowrap; margin-bottom:3px; line-height:25px; overflow:hidden}
+.contact ul li img{ width:25px; height:25px; margin-right:5px; display:inline; float:left;}
+.contact ul li.address{ width:100%; float:none;}
+.contact ul li i { color: #eba443 }

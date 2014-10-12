@@ -1,0 +1,27 @@
+{
+  "name": "vcard",
+  "version": "0.0.0",
+  "authors": [
+    "ShieldaX <shieldax@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.2.0",
+    "handlebars": "~2.0.0"
+  },
+  "devDependencies": {
+  }
+}
