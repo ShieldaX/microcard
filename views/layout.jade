@@ -12,7 +12,13 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
 
   body
+    include includes/menu
     block content
+    .clearfix
+    footer
+      .container
+        p.text-center
+          span.text-muted.copyright(style="font-family:arial;") &copy; 2014 HT Labs, All rights reserved.
     block scripts
       script(type="text/javascript", src="/components/jquery/dist/jquery.min.js")
       script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.min.js")

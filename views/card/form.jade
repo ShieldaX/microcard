@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+  .container
+    include ../includes/message
+    h2.text-center: i.fa.fa-pencil-square-o
+      |  填写名片内容
+    hr
+    form.form-horizontal(action="/card", method="post", role="form")
+      .form-group
+        label.control-label.col-sm-3(for="name") 姓名
+        .col-sm-6
+          input.form-control(type="text", id="name", name="name", placeholder="", autofocus="autofocus", required)
+      .form-group
+        label.control-label.col-sm-3(for="phone") 电话
+        .col-sm-6
+          input.form-control(type="text", id="phone", name="phone", placeholder="")
+      .form-group
+        label.control-label.col-sm-3(for="email") 电子邮箱
+        .col-sm-6
+          input.form-control(type="email", id="email", name="email", placeholder="")
+      .form-group
+        label.control-label.col-sm-3(for="site") 网址
+        .col-sm-6
+          input.form-control(type="url", id="site", name="site", placeholder="")
+      .form-group
+        label.control-label.col-sm-3(for="company") 公司
+        .col-sm-6
+          input.form-control(type="text", id="company", name="company", placeholder="")
+      .form-group
+        label.control-label.col-sm-3(for="position") 职位
+        .col-sm-6
+          input.form-control(type="text", id="position", name="position", placeholder="")
+      .form-group
+        label.control-label.col-sm-3(for="address") 地址
+        .col-sm-6
+          input.form-control(type="text", id="address", name="address", placeholder="")
+      hr
+      .form-group
+        .col-sm-offset-3.col-sm-9
+          button.btn.btn-success.btn-lg(type="submit") 创 建&nbsp;
+            i.fa.fa-check
+          |  &nbsp;&nbsp;&nbsp;
+          a.btn.btn-link(href="/") 返回

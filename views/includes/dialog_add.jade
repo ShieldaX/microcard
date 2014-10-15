@@ -1,0 +1,12 @@
+.modal#modal_add_url(role="dialog", tabindex="-1", aria-hidden="true")
+  .modal_wrapper
+    .modal-dialog
+      .modal-content
+        .modal-body
+          button(type="button", class="close" data-dismiss="modal")
+            span(aria-hidden="true") &times;
+            span.sr-only 关闭
+          label 保存链接到 Flipr
+          .form-group(style="margin-top: 10px;")
+            input.form-control(type="text", autofocus="true", autocomplete="off", name="url", id="url_add", placeholder="http://...")
+          button.btn.btn-danger.commit.disabled(type="submit") 保存

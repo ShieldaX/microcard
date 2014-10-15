@@ -25,7 +25,7 @@ exports.create = function (req, res, next) {
 };
 
 exports.QRcode = function (req, res) {
-  res.render('qrcode');
+  res.render('card/qrcode');
 };
 
 exports.display = function (req, res, next) {
@@ -34,7 +34,7 @@ exports.display = function (req, res, next) {
     if (error) { return next(error); }
     var vcard = JSON.stringify(card.toJSON());
     console.log(vcard);
-    res.render('card', {vcard: vcard});
+    res.render('card/card', {vcard: vcard});
   });
 };
 

@@ -1,5 +1,23 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .jumbotron.text-center
+      h3
+        span.fa.fa-credit-card.text-primary
+        |  微名片
+      h2 欢迎使用简便易用的微名片
+      br
+      br
+      ul.list-inline
+        li
+          a.btn.btn-default.btn-lg(href="/card/validate")
+            span.text-muted 修改名片
+          //- | &nbsp;&nbsp;&nbsp;
+        li
+          a.btn.btn-default.btn-lg.btn-success(href="/card/validate")
+            |  全新的名片&nbsp;
+            span.fa.fa-arrow-circle-right
+      p.text-center.text-muted(style="margin-top: 20px; font-size: 12px")
+        span.fa.fa-quote-left.fa-2x(style="color: rgba(153, 153, 153, 0.4)")
+        |  传统名片容易丢失，存放还占空间，名片一多起来就很难管理。现在我们运用先进的云计算，整合二维码搭建的微名片服务，可以让您轻松收集管理名片。

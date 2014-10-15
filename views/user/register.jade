@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  .container.grid
+    .col-sm-6.col-sm-offset-3
+      include ../includes/message
+
+      h1
+        span.fa.fa-user
+        |  注册会员
+      br
+      form(action="/user/signup", method="post")
+        //- .form-group
+        //-   label(for="email") 电子邮箱
+        //-   .input-group
+        //-     span.input-group-addon: i.fa.fa-envelope-o.fa-w
+        //-     input.form-control(type="email", id="email", name="email", placeholder="请输入常用的邮箱地址")
+        //- .form-group
+        //-   label 密码
+        //-   .input-group
+        //-     span.input-group-addon: i.fa.fa-key.fa-w
+        //-     input.form-control(type="password", name="password", placeholder="请填写密码以保护您的账户安全")
+
+        .form-group
+          label(for="email") 电子邮箱
+          input.form-control(type="email", id="email", name="email", placeholder="请输入常用的邮箱地址", autofocus)
+        .form-group
+          label 密码
+          input.form-control(type="password", name="password", placeholder="请填写密码以方便您以后管理名片")
+        button.btn.btn-warning.btn-lg(type="submit") 注 册
+        | &nbsp;&nbsp;
+        | 已经有账号&nbsp;
+        a(href='/user/signin') 登录
+
+      hr
+
+      //- p.small: i.fa.fa-sort-up
+        | &nbsp;&nbsp;点击注册
+        |，即表示您已阅读并同意我们的
+        a 《利用规约》

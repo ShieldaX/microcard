@@ -22,6 +22,8 @@ var CardSchema = new Schema({
   position: String,
   // 电话
   phone: String,
+  // 手机
+  mobile: String,
   // 邮箱
   email: String,
   // 传真
