@@ -22,10 +22,22 @@ var CardSchema = new Schema({
   position: String,
   // 电话
   phone: String,
+  // 邮箱
+  email: String,
+  // 传真
+  fax: String,
   // 通讯地址
   address: String,
   // 网站地址
   site: String,
+  // QQ号码
+  qq: String,
+  // 微信
+  weixin: String,
+  // 微博
+  weibo: String,
+  // 阿里旺旺
+  wangwang: String,
   // 创建时间
   created: {
     type: Date,
