@@ -43,6 +43,8 @@ module.exports = function (app) {
 
     app.post('/', card.create);
 
+    app.get('/share', card.share);
+
     app.get('/qrcode/:id', card.QRcode);
 
     app.get('/:id', card.display);

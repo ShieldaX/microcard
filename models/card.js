@@ -11,6 +11,11 @@ var Schema = mongoose.Schema
  * 定义用户模式
  */
 var CardSchema = new Schema({
+  // 持有人
+  owner: {
+    type: Schema.Types.ObjectId,
+    required: true
+  },
   // 姓名
   name: {
     type: String,
@@ -20,10 +25,10 @@ var CardSchema = new Schema({
   company: String,
   // 职位
   position: String,
-  // 电话
-  phone: String,
   // 手机
   mobile: String,
+  // 电话
+  phone: String,
   // 邮箱
   email: String,
   // 传真
@@ -38,8 +43,6 @@ var CardSchema = new Schema({
   weixin: String,
   // 微博
   weibo: String,
-  // 阿里旺旺
-  wangwang: String,
   // 创建时间
   created: {
     type: Date,

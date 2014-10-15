@@ -28,6 +28,10 @@ exports.QRcode = function (req, res) {
   res.render('card/qrcode');
 };
 
+exports.share = function (req, res) {
+  res.render('card/share');
+};
+
 exports.display = function (req, res, next) {
   var cardid = req.param('id');
   Card.findById(cardid, function (error, card) {
