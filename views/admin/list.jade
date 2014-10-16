@@ -4,7 +4,7 @@ append scripts
   script.
     var cards = JSON.parse('!{cards}');
     $(function () {
-      var container = $('.container');
+      var container = $('#cards').first();
       console.log(cards.length);
       cards && container.append($(Handlebars.templates.admin_list(cards)));
     });
@@ -14,3 +14,4 @@ block content
     h3.text-center: i.fa.fa-list-alt
       |  卡片一览
     hr
+    #cards.col-sm-6.col-sm-offset-3

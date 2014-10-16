@@ -14,7 +14,8 @@ var CardSchema = new Schema({
   // 持有人
   owner: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
+    select: false
   },
   // 姓名
   name: {

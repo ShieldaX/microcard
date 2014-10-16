@@ -8,12 +8,12 @@ var auth = require('./middlewares/auth');
 module.exports = function (app) {
   app.all('*', auth.loadUser);
 
+  // 首页
   app.get('/', function (req, res) {
     res.render('index', { title: '微名片' });
   });
 
-  app.get('/admin/cards/:code', card.list); // 利用口令进行简单保护
-
+  // 会员账户系统
   app.namespace('/user', function () {
     // app.get('/', function (req, res) {
     //   res.send('GET user');
@@ -28,6 +28,7 @@ module.exports = function (app) {
     app.get('/signout', auth.requireAuthentication, user.logout);
   });
 
+  // 前台业务逻辑端
   app.namespace('/card', function () {
     app.all('*', auth.requireAuthentication);
 
@@ -43,14 +44,22 @@ module.exports = function (app) {
 
     app.post('/', card.create);
 
-    app.get('/share', card.share);
+    app.get('/share', card.share); // ../card/share?id=xxx
 
     app.get('/qrcode/:id', card.QRcode);
 
     app.get('/:id', card.display);
   });
 
-  // app.namespace('/admin', function () {
-  //   app.all('*', admin.validateRole);
-  // });
+  // 移动展示端
+  app.namespace('/v', function () {
+    app.get('/:cid', function (req, res) {
+      res.end('GET Card ' + req.params.cid + "'s View." );
+    });
+  });
+
+  app.namespace('/admin', function () {
+    // app.all('*', admin.validateRole);
+    app.get('/m/c/:code', card.list); // 利用口令进行简单保护
+  });
 };

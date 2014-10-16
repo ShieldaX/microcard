@@ -33,18 +33,21 @@ block content
         form
           .form-group
             label.sr-only(for="sharing")
-            textarea.form-control(title="编辑分享内容", rows="3").
+            textarea.form-control(title="编辑分享内容", rows="5").
               我在微名片上制作了一张电子名片，欢迎小伙伴们来围观！ http://wmp.com
           .pull-right
             ul.list-inline
               li
                 | 分享到：
               li
-                button.btn.btn-default QQ&nbsp;
-                  i.fa.fa-qq.text-primary
+                button.btn.btn-default.disabled QQ&nbsp;
+                  i.fa.fa-qq.text-info
               li
-                button.btn.btn-default 微博&nbsp;
+                button.btn.btn-default.disabled 微博&nbsp;
                   i.fa.fa-weibo.text-danger
               li
-                button.btn.btn-default 微信&nbsp;
+                button.btn.btn-default.disabled 微信&nbsp;
                   i.fa.fa-weixin.text-success
+              li
+                button.btn.btn-link.disabled
+                  i.fa.fa-ellipsis-h.text-muted
