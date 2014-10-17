@@ -1,4 +1,12 @@
 if (message && message.length > 0)
-  .alert.alert-info= message
+  .alert.alert-info.alert-dismissable
+    button.close(data-dismiss="alert", aria-hidden="true") &times;
+    | #{message}
+if (success && success.length > 0)
+  .alert.alert-success.alert-dismissable
+    button.close(data-dismiss="alert", aria-hidden="true") &times;
+    | #{success}
 if (error && error.length > 0)
-  .alert.alert-danger= error
+  .alert.alert-danger.alert-dismissable
+    button.close(data-dismiss="alert", aria-hidden="true") &times;
+    | #{error}

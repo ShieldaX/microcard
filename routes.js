@@ -1,6 +1,7 @@
 // 路由分配
 var user = require('./controllers/user');
 var card = require('./controllers/card');
+var license = require('./controllers/license');
 
 // 加载中间件
 var auth = require('./middlewares/auth');
@@ -60,7 +61,15 @@ module.exports = function (app) {
 
   app.namespace('/admin', function () {
     app.all('*', auth.requireAuthentication);
-    // app.all('*', admin.validateRole);
-    app.get('/m/c/:code', card.list); // 利用口令进行简单保护
+    // app.all('*', auth.requireAdmin);
+
+    app.namespace('/cards', function () {
+      app.get('/:code', card.list); // 利用口令进行简单保护
+    });
+
+    app.namespace('/licenses', function () {
+      app.get('/', license.list);
+      app.post('/', license.apply);
+    });
   });
 };

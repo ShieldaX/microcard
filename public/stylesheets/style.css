@@ -42,3 +42,11 @@ form .input-error {
   display: inline-block;
   margin: 10px 0 0 0;
 }
+
+/**
+ * Licenses
+ */
+
+#licenses h3 small {
+  margin-left: 5px;
+}

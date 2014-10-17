@@ -46,6 +46,14 @@ UserSchema.statics.findByEmail = function (email, callback) {
   return this.findOne({email: email}, callback);
 };
 
+UserSchema.statics.isAdmin = function (id, calback) {
+  this.findOne({_id: id, role: 'administrator'}, function (error, doc) {
+    if (error) return callback(error);
+    if (doc) return callback(null, true);
+    callback(new Error("Not administrator, forbidden!"));
+  });
+};
+
 /**
  * Methods definition
  */

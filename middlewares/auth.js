@@ -5,15 +5,12 @@ var User = require('../models/user');
 //route middleware
 exports.requireAuthentication = function (req, res, next) {
   if (req.user) {
-    // find user in session
-    //console.log(user);
-    //res.locals.user = user; // just load user into response locals
     next();
   } else {
     // Unauthenticate!
-    //TODO: try to reload from cookie
-    //User.findByUsername(uid, function (e, u) {});
     //TODO: redirect to previous path after login
+    console.log(req.originalUrl);
+    // var callbackQuery = '/?callback=' + req.originalUrl;
     req.flash('error', '请先登录账号！'); // error flash message
     res.redirect('/user/signin');
   }
@@ -32,6 +29,23 @@ exports.loadUser = function (req, res, next) {
   res.locals.user = req.user
   next();
 };
+
+exports.requireAdmin = function (req, res, next) {
+  if (!!req.user) {
+    User.isAdmin(user.id, function (error, admin) {
+      if (error || !admin) {
+        req.flash('error', '需要管理员权限！'); // error flash message
+        res.redirect('back'); // res.redirect('/admin/login');
+      } else {
+        next();
+      }
+    });
+  } else {
+    // Forbidden!
+    req.flash('error', '需要管理员权限！'); // error flash message
+    res.redirect('back'); // res.redirect('/admin/login');
+  }
+}
 
 exports.requireLicense = function (req, res, next) {
   //
