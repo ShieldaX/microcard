@@ -34,16 +34,16 @@ module.exports = function (app) {
     app.all('*', auth.requireAuthentication);
 
     app.get('/validate', function (req, res) {
-      res.render('card/validate');
+      res.render('card/validate', {error: req.flash('error')});
     });
 
     app.post('/validate', card.request);
 
-    app.get('/', function (req, res) {
+    app.get('/', auth.requireLicense, function (req, res) {
       res.render('card/form');
     });
 
-    app.post('/', card.create);
+    app.post('/', auth.requireLicense, card.create);
 
     app.get('/share', card.share); // ../card/share?id=xxx
 
@@ -59,7 +59,10 @@ module.exports = function (app) {
     });
   });
 
+  // 后台管理
   app.namespace('/admin', function () {
+    // TODO: 单独设计管理员账户更容易控制安全性，不需要用户角色role就能满足需求
+    //
     app.all('*', auth.requireAuthentication);
     // app.all('*', auth.requireAdmin);
 
@@ -70,6 +73,7 @@ module.exports = function (app) {
     app.namespace('/licenses', function () {
       app.get('/', license.list);
       app.post('/', license.apply);
+      app.post('/ban', license.use);
     });
   });
 };

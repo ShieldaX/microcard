@@ -36,6 +36,7 @@ exports.apply = function (req, res, next) {
  */
 exports.use = function (req, res, next) {
   var code = req.body.code;
+  console.log('Ban Code: ' + code);
   if (!code) return next(new Error('None Code'));
   License.invalidate(code, function (error, success) {
     if (error) {

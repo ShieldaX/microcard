@@ -48,5 +48,11 @@ exports.requireAdmin = function (req, res, next) {
 }
 
 exports.requireLicense = function (req, res, next) {
-  //
+  if (!!req.session.license) {
+    console.log(req.session.license);
+    next();
+  } else {
+    req.flash('error', '验证已过期，请重新进行验证');
+    res.redirect('/card/validate');
+  }
 };

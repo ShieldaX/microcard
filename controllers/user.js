@@ -48,7 +48,7 @@ exports.authenticate = function (req, res, next) {
     failureRedirect: '/user/signin',
     failureFlash: '用户名密码不匹配'
   };
-  req.session.cookie.maxAge = 2592000000; // 30*24*60*60*1000 Rememeber 'me' for 30 days
+  // req.session.cookie.maxAge = 2592000000; // 30*24*60*60*1000 Rememeber 'me' for 30 days
   passport.authenticate('local', authOptions)(req, res, next);
 };
 

@@ -1,5 +1,16 @@
 extends ../layout
 
+append scripts
+  script.
+    //- $(function () {
+    //-   var copy_btn = $('#licenses .list-group-item small');
+    //-   console.log(copy_btn.length);
+    //-   copy_btn.click(function (event) {
+    //-     var code = $(this).parent().text();
+    //-     alert(code);
+    //-   });
+    //- });
+
 block content
   .container
     .col-sm-8.col-sm-offset-2
@@ -23,13 +34,21 @@ block content
             li.list-group-item
               //- button.pull-right.btn.btn-link(title="复制"): span.fa.fa-copy
               h3.list-group-item-heading= license.code
-                small(title="点击复制制作码"): i.fa.fa-copy.text-primary
+                small(title="点击复制制作码")
+                  i.fa.fa-copy.text-primary
               p.list-group-item-text
                 span
                   i.fa.fa-clock-o
                   | #{license.created.toLocaleTimeString()} #{license.created.toLocaleDateString()}
                 span.pull-right 状态：
                   if license.active
-                    i.fa.fa-dot-circle-o.text-success
+                    i.fa.fa-dot-circle-o.text-success(title="可用")
                   else
-                    i.fa.fa-dot-circle-o.text-danger
+                    i.fa.fa-dot-circle-o.text-danger(title="不可用")
+      form.form-inline(method="POST", action="/admin/licenses/ban")
+        .form-group
+          label(for="code") 注销制作码：
+          input.form-control(type="text", id="code", name="code")
+        .form-group
+          | &nbsp;&nbsp;
+          button.btn.btn-danger(type="submit"): i.fa.fa-ban

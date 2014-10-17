@@ -9,13 +9,37 @@ block content
           |  填写验证码
         hr
 
-        form(method="post")
+        form#request_form(method="post")
           .form-group
             //- label 账号
-            input.form-control.input-lg.text-center(type="text", name="code", placeholder="请输入获得的制作码", autocomplete="off", required)
+            input.form-control.input-lg.text-center(type="text", name="code", placeholder="请输入获得的制作码", autocomplete="off", minlength=6, required)
           button.btn.btn-lg.btn-block.btn-warning(type="submit") 提 交
           br
           br
           p.text-right
             | 还没有制作码?&nbsp;
             a(title="进店询问详情", href='http://shop72514689.taobao.com/?spm=2013.1.1000126.d21.Rt3XAQ') 点我去获取
+
+
+append scripts
+  script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  script.
+    $("#request_form").validate({
+      //- debug: true,
+      errorClass: "input-error text-danger",
+      errorElement: "i",
+      rules: {
+        code: {
+          required: true,
+          minlength: 6,
+          maxlength: 6
+        }
+      },
+      messages: {
+        code: {
+          required: "请输入制作码！",
+          minlength: "请输入6位制作码",
+          minlength: "请输入6位制作码"
+        }
+      }
+    });
