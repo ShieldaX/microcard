@@ -1,67 +1,114 @@
 extends ../layout
 
+append scripts
+  script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  script.
+    $("#create_card_form").validate({
+      //- debug: true,
+      errorClass: "input-error text-danger",
+      errorElement: "i",
+      rules: {
+        name: {
+          required: true,
+          maxlength: 20
+        },
+        email: {
+          email: true
+        },
+        //- site: {
+        //-   url: true
+        //- },
+        qq: { minlength: 4, maxlength: 11 },
+        write: {
+          maxlength: 140
+        }
+      },
+      messages: {
+        name: {
+          required: "请填写姓名",
+          maxlength: "暂不支持20个字以上的名字"
+        },
+        email: {
+          email: "填写的邮箱格式不正确"
+        },
+        site: {
+          url: "网址格式不正确"
+        },
+        qq: "QQ号码格式不正确",
+        write: {
+          maxlength: "已超过140字限制"
+        }
+      }
+    });
+
 block content
   .container
     include ../includes/message
     h2.text-center: i.fa.fa-pencil-square-o
       |  填写名片内容
     hr
-    form.form-horizontal(action="/card", method="post", role="form")
+    form.form-horizontal#create_card_form(action="/card", method="post", role="form")
       fieldset
         h6.text-muted(title="您的个人信息不会透漏给任何不被信任的第三方，请放心填写。") 基本信息 &nbsp;
           span.fa.fa-shield.text-success
         .form-group
-          label.control-label.col-sm-3(for="name") 姓名
+          label.control-label.col-sm-4(for="name") 姓名
             i.text-danger *
-          .col-sm-6
+          .col-sm-5
             input.form-control(type="text", id="name", name="name", placeholder="", autofocus="autofocus", required)
         .form-group
-          label.control-label.col-sm-3(for="company") 公司
-          .col-sm-6
+          label.control-label.col-sm-4(for="company") 公司
+          .col-sm-5
             input.form-control(type="text", id="company", name="company", placeholder="公司或组织的全称")
         .form-group
-          label.control-label.col-sm-3(for="position") 职位
-          .col-sm-6
+          label.control-label.col-sm-4(for="position") 职位
+          .col-sm-5
             input.form-control(type="text", id="position", name="position", placeholder="职位或职务")
       fieldset
         h6.text-muted 联系方式
         .form-group
-          label.control-label.col-sm-3(for="mobile") 手机
-          .col-sm-6
+          label.control-label.col-sm-4(for="mobile") 手机
+          .col-sm-5
             input.form-control(type="text", id="mobile", name="mobile", placeholder="+00 123 4567 8910")
         .form-group
-          label.control-label.col-sm-3(for="phone") 座机
-          .col-sm-6
+          label.control-label.col-sm-4(for="phone") 座机
+          .col-sm-5
             input.form-control(type="text", id="phone", name="phone", placeholder="0000 123 45678")
         .form-group
-          label.control-label.col-sm-3(for="email") 电子邮箱
-          .col-sm-6
+          label.control-label.col-sm-4(for="email") 电子邮箱
+          .col-sm-5
             input.form-control(type="email", id="email", name="email", placeholder="name@example.com")
         .form-group
-          label.control-label.col-sm-3(for="site") 网站
-          .col-sm-6
+          label.control-label.col-sm-4(for="site") 网站
+          .col-sm-5
             input.form-control(type="url", id="site", name="site", placeholder="blog.yourhost.com 网站或博客")
         .form-group
-          label.control-label.col-sm-3(for="address") 地址
-          .col-sm-6
+          label.control-label.col-sm-4(for="address") 地址
+          .col-sm-5
             input.form-control(type="text", id="address", name="address", placeholder="省市 县区 街道 楼座")
       fieldset
         h6.text-muted 社交账号
         .form-group
-          label.control-label.col-sm-3(for="qq") QQ
-          .col-sm-6
+          label.control-label.col-sm-4(for="qq") QQ
+          .col-sm-5
             input.form-control(type="text", id="qq", name="qq", placeholder="12345678")
         .form-group
-          label.control-label.col-sm-3(for="weixin") 微信
-          .col-sm-6
+          label.control-label.col-sm-4(for="weixin") 微信
+          .col-sm-5
             input.form-control(type="text", id="weixin", name="weixin", placeholder="weixin")
         .form-group
-          label.control-label.col-sm-3(for="weibo") 新浪微博
-          .col-sm-6
+          label.control-label.col-sm-4(for="weibo") 新浪微博
+          .col-sm-5
             input.form-control(type="text", id="weibo", name="weibo", placeholder="@sinaweibo")
+      fieldset
+        h6.text-muted 个性化
+        .form-group
+          label.control-label.col-sm-4(for="write") 签名
+          .col-sm-5
+            textarea.form-control(type="text", id="write", name="write", placeholder="写一段简介或个性签名，利用文字来更好的展示自己", rows="4")
       hr
       .form-group
-        .col-sm-offset-3.col-sm-9
+        .col-sm-offset-4.col-sm-8
           button.btn.btn-success.btn-lg(type="submit") 创 建&nbsp;
             i.fa.fa-check
           |  &nbsp;&nbsp;&nbsp;

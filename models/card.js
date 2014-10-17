@@ -44,6 +44,10 @@ var CardSchema = new Schema({
   weixin: String,
   // 微博
   weibo: String,
+  // 签名
+  write: {
+    type: String
+  },
   // 创建时间
   created: {
     type: Date,

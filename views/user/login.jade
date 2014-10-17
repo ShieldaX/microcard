@@ -18,9 +18,9 @@ block content
             input.form-control(type="password", name="password", placeholder="请输入密码")
           button.btn.btn-warning.btn-lg(type="submit", title="点击按钮登录账户") 登 录
           | &nbsp;&nbsp;&nbsp;&nbsp;
-          | 还没有账号&nbsp;&nbsp;
-          a.btn.btn-default(href='/user/signup', title="点击注册会员") 立即注册&nbsp;
-              //- i.fa.fa-arrow-circle-right.text-success
+          | 还没有账号?
+          a(href='/user/signup', title="点击注册会员") 立即注册&nbsp;
+            i.fa.fa-arrow-circle-right
       hr
       p.small
         a(title="点击链接重置密码") 忘记登录密码&nbsp;

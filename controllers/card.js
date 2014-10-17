@@ -14,7 +14,10 @@ exports.request = function (req, res) {
 };
 
 exports.create = function (req, res, next) {
+  var owner = req.user.id;
   var data = req.body;
+  data.owner = owner;
+  // TODO: 检查是否系统用户，或者是否有权创建
   console.log(data);
   Card.create(data, function (error, card) {
     if (error) { return next(error); }

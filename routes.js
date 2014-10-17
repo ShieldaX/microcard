@@ -59,6 +59,7 @@ module.exports = function (app) {
   });
 
   app.namespace('/admin', function () {
+    app.all('*', auth.requireAuthentication);
     // app.all('*', admin.validateRole);
     app.get('/m/c/:code', card.list); // 利用口令进行简单保护
   });
