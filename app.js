@@ -27,6 +27,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -52,7 +53,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 if (!config.debug) {
   app.use(csurf());
@@ -81,15 +82,6 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  hbsPrecompiler = require('handlebars-precompiler');
-  hbsPrecompiler.watch(
-    __dirname + "/views/templates",
-    __dirname + "/public/javascripts/templates.js",
-    {
-      partial: true,
-      extensions: ['handlebars', 'hbs']
-    }
-  );
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

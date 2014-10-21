@@ -30,8 +30,8 @@ module.exports = function (app) {
   });
 
   // 前台业务逻辑端
+  app.all('/card/*', auth.requireAuthentication);
   app.namespace('/card', function () {
-    app.all('*', auth.requireAuthentication);
 
     app.get('/validate', function (req, res) {
       res.render('card/validate', {error: req.flash('error')});
@@ -47,24 +47,22 @@ module.exports = function (app) {
 
     app.get('/share', card.share); // ../card/share?id=xxx
 
-    app.get('/qrcode/:id', card.QRcode);
-
     app.get('/:id', card.display);
   });
 
   // 移动展示端
   app.namespace('/v', function () {
-    app.get('/:cid', function (req, res) {
-      res.end('GET Card ' + req.params.cid + "'s View." );
-    });
+    app.get('/:id', card.data, card.template);
   });
 
+  app.all('/admin/*', auth.requireAuthentication);
+  // app.all('/admin*', auth.requireAdmin);
   // 后台管理
   app.namespace('/admin', function () {
     // TODO: 单独设计管理员账户更容易控制安全性，不需要用户角色role就能满足需求
-    //
-    app.all('*', auth.requireAuthentication);
-    // app.all('*', auth.requireAdmin);
+    app.get('/', function (req, res) {
+      res.end('GET admin port');
+    });
 
     app.namespace('/cards', function () {
       app.get('/:code', card.list); // 利用口令进行简单保护

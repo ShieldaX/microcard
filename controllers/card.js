@@ -48,10 +48,6 @@ exports.create = function (req, res, next) {
   });
 };
 
-exports.QRcode = function (req, res) {
-  res.render('card/qrcode');
-};
-
 exports.share = function (req, res) {
   res.render('card/share');
 };
@@ -70,6 +66,29 @@ exports.list = function (req, res, next) {
   if (req.params.code !== '13eta') return res.redirect('/');
   Card.find({}, function (error, cards) {
     if (error) { return next(error); }
-    res.render('admin/list', {cards: JSON.stringify(cards)});
+    // res.render('admin/list', {cards: JSON.stringify(cards)});
+    res.render('admin/list', {cards: cards});
   });
 };
+
+exports.data = function (req, res, next) {
+  var cardid = req.param('id');
+  Card.findById(cardid, function (error, card) {
+    if (error) { return next(error); }
+    // var vcard = JSON.stringify(card.toJSON());
+    // console.log(vcard);
+    res.card = card;
+    next();
+    // res.render('card/display', {card: card});
+  });
+};
+
+exports.template = function (req, res) {
+  var card = res.card;
+  if (card) {
+    var template = card.template || req.query.tpl || 'templ1';
+    // template = /templ/.test(req.query.tpl) ? 'templ' + req.query.tpl : 'templ0';
+    console.log('Renders card with template named: ', template);
+    res.render('templates/' + template, {card: card});
+  }
+}

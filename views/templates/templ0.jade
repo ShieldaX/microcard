@@ -1,0 +1,88 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0")
+    - title = title ? title : '微名片'
+    title= title
+    block styles
+      link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')
+      link(rel='stylesheet', href='/components/font-awesome/css/font-awesome.min.css')
+      link(rel='stylesheet', href='/stylesheets/templ0.css')
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+  body
+    block content
+      .header-deco
+      .container
+        .row
+          .col-lg-12
+            img.avatar.img-circle.img-responsive.img-thumbnail.center-block(alt="140x140", src="http://lorempixel.com/140/140/city")
+            h2.text-center= card.name
+            h4.text-center= card.position
+      .container
+        .row.text-center
+          //- h3 Contacts
+          .col-md-6.col-sm-12.col-xs-12.col-md-offset-3
+            p.text-info
+              h3= card.company
+              //- br
+
+              address: strong= card.address
+                //- i.glyphicon.glyphicon-map-marker
+                //- | #{card.address}
+
+            ul.list-unstyled
+              li
+                i.glyphicon.glyphicon-envelope
+                | &nbsp;
+                a(href="mailto:#{card.email}") #{card.email || 'yourname@example.com'}
+              li
+                i.glyphicon.glyphicon-phone
+                | &nbsp;#{card.phone}
+              li
+                i.glyphicon.glyphicon-globe
+                | &nbsp;#{card.site}
+              li
+                i.glyphicon.glyphicon-phone-alt
+                | &nbsp;9999 123 456
+
+
+        .row.text-center
+          .col-md-6.col-sm-12.col-xs-12.col-md-offset-3
+            a: i.fa.fa-lg.fa-qq.text-info
+            a: i.fa.fa-lg.fa-weixin.text-success
+            a: i.fa.fa-lg.fa-weibo.text-danger
+
+      .container
+        .row
+          .map_img.col-md-6.col-sm-12.col-xs-12.col-md-offset-3
+            - var marker = {lng: '121.46236', lat: '31.253631'};
+            - var marker_img = marker.lng+','+marker.lat;
+            - var marker_link = marker.lat+','+marker.lng;
+            - var map_img_attrs = {'src': 'http://api.map.baidu.com/staticimage?&scale=2&center='+marker_img+'&markers='+marker_img+'&width=320&height=240&zoom=14&copyright=1&markerStyles=m,,red'};
+            - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title=我的位置&content=地址&output=html', 'target': '_blank'};
+            a&attributes(map_link_attrs)
+              img.img-responsive.img-thumbnail.img-rounded.center-block.map-img&attributes(map_img_attrs)
+          .col-md-6.col-md-offset-3.col-sm-12.col-xs-12
+            a.btn.btn-default.center-block(style="margin: 10px 0;")&attributes(map_link_attrs)
+              i.glyphicon.glyphicon-screenshot
+              | 地图导航
+      footer(style="margin-top: 10px;")
+        .container
+          .row
+            .col-lg-12
+              p.text-center
+                span.text-muted.copyright(style="font-family:arial;") &copy; 2014 HT Labs.
+
+    block scripts
+      script(type="text/javascript", src="/components/jquery/dist/jquery.min.js")
+      script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.min.js")
+      //- script(type="text/javascript", src="/javascripts/templ0.js")

@@ -1,27 +1,28 @@
-.navbar.navbar-fixed-top.navbar-default(role="navigation")
-  .navbar-header
-    a.navbar-brand(href="/")
-      span.fa.fa-credit-card.fa-lg
-      |  微名片
-  div
-    ul.nav.navbar-nav.navbar-right
-      if (locals.user)
-        li
-          a
-            i 欢迎你，
-            | #{user.email}
-        li
-          a(href="/user/signout")
-            span.fa.fa-sign-out.fa-lg.text-danger
-            |  注销
-      else
-        li
-          a(href="/user/signin")
-            span.fa.fa-sign-in.fa-lg
-            |  登录
-        li
-          a.text-muted(href="/user/signup")
-            span.fa.fa-user.fa-lg
-            |  注册
-      li &nbsp;&nbsp;&nbsp;&nbsp;
+nav.navbar.navbar-static-top.navbar-default(role="navigation")
+  .container-fluid
+    .navbar-header
+      a.navbar-brand(href="/")
+        span.fa.fa-credit-card.fa-lg
+        |  微名片
+    div
+      ul.nav.navbar-nav.navbar-right
+        if (locals.user)
+          li
+            a
+              i 欢迎你，
+              | #{user.email}
+          li
+            a(href="/user/signout")
+              span.fa.fa-sign-out.fa-lg.text-danger
+              |  注销
+        else
+          li
+            a(href="/user/signin")
+              span.fa.fa-sign-in.fa-lg
+              |  登录
+          li
+            a.text-muted(href="/user/signup")
+              span.fa.fa-user.fa-lg
+              |  注册
+        //- li &nbsp;&nbsp;&nbsp;&nbsp;
 .clearfix

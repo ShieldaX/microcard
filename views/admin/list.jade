@@ -1,6 +1,6 @@
 extends ../layout
 
-append scripts
+//- append scripts
   script.
     var cards = JSON.parse('!{cards}');
     $(function () {
@@ -15,3 +15,13 @@ block content
       |  卡片一览
     hr
     #cards.col-sm-6.col-sm-offset-3
+      .list
+        ul.list-group
+          each card, index in cards
+            li.list-group-item
+              span.fa.fa-eye.text-muted.pull-right
+              h4.list-group-item-heading= card.name
+              p.list-group-item-text
+                a(href="/v/#{card.id}")
+                  span ID:&nbsp;
+                  | #{card.id}
