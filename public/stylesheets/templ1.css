@@ -589,6 +589,10 @@ transition-timing-function: ease;
   dl dt {margin-bottom: 5px !important;}
   .parallax {background-image: none !important;}
 
+  .wrap > .row {
+    padding: 30px 10px 60px;
+  }
+
 }
 
 /* Landscape phones and down */

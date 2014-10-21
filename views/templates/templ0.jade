@@ -27,6 +27,7 @@ html
             img.avatar.img-circle.img-responsive.img-thumbnail.center-block(alt="140x140", src="http://lorempixel.com/140/140/city")
             h2.text-center= card.name
             h4.text-center= card.position
+
       .container
         .row.text-center
           //- h3 Contacts
@@ -57,9 +58,24 @@ html
 
         .row.text-center
           .col-md-6.col-sm-12.col-xs-12.col-md-offset-3
-            a: i.fa.fa-lg.fa-qq.text-info
-            a: i.fa.fa-lg.fa-weixin.text-success
-            a: i.fa.fa-lg.fa-weibo.text-danger
+            a.btn.btn-link
+              i.fa.fa-lg.fa-qq.text-info
+              | #{card.qq}
+            a.btn.btn-link
+              i.fa.fa-lg.fa-weixin.text-success
+              | #{card.weixin}
+            a.btn.btn-link
+              i.fa.fa-lg.fa-weibo.text-danger
+              | #{card.weibo}
+
+      .container.about
+        .row
+          .col-md-6.col-sm-12.col-xs-12.col-md-offset-3
+            p
+              i.fa.fa-quote-left.text-muted.fa-2x
+              i.fa.fa-quote-right.text-muted
+            p.text-center
+              | #{card.write}
 
       .container
         .row
