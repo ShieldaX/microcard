@@ -19,13 +19,13 @@ block content
           .col-xs-12
             .col-sm-12.col-xs-12
               form#request_form(method="post", enctype="multipart/form-data")
-                .col-xs-10.col-sm-6(style="padding-left: 0")
+                .col-xs-9.col-sm-6(style="padding-left: 0")
                   input.form-control.text-center(type="file", name="avatar", id="avatar", required)
                 //- button.btn.btn-default#choose(type="submit") 选择图片
                 button.btn.btn-default#upload(type="submit") 上 传
                 //- | &nbsp;&nbsp;
                 p.help-block
-                  i.fa.fa-spinner.fa-lg.text-success#spinner.hidden
+                  i.fa.fa-spinner.fa-lg.text-muted#spinner.hidden
                   span#info.text-danger
                   //- span#info.text-danger 上传失败，请重试！
                 p.help-block
@@ -55,7 +55,9 @@ append styles
   link(rel='stylesheet', href="/components/jcrop/css/jquery.Jcrop.min.css")
 
 append scripts
-  //- script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  script(type="text/javascript", src="/components/jquery-validation/dist/additional-methods.min.js")
+  script(type="text/javascript", src="/javascripts/validator_methods.js")
   script(type="text/javascript", src="/components/jcrop/js/jquery.Jcrop.min.js")
   script(type="text/javascript", src="http://libs.useso.com/js/jquery.form/3.50/jquery.form.min.js")
   script.
@@ -108,7 +110,7 @@ append scripts
           w*.5 + dimension*.5,
           h*.5 + dimension*.5,
         ];
-        console.log(iniSelect);
+        //- console.log(iniSelect);
         $('#imgarea').Jcrop({
           onSelect: updatePreview,
           onChange: updatePreview,
@@ -131,8 +133,8 @@ append scripts
       var button_save = $('#save');
       var request_form = $('#request_form'); // cache form jq handler
       request_form.ajaxForm({
-        url: '/upload',
-        type: 'POST',
+        //- url: '/upload',
+        //- type: 'POST',
         //- restForm: true,
         //- clearForm: true,
         success: function(res, status, xhr, _form) {
@@ -142,35 +144,50 @@ append scripts
             $('#info').text(flash);
           } else {
             JcropSetup(res.data);
-            button_save.toggleClass('disabled')
+            button_save.removeClass('disabled')
           }
-          $('#spinner').toggleClass('fa-spin').toggleClass('hidden');
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
           request_form.resetForm();
         },
         error: function (res, status, error) {
-          $('#spinner').toggleClass('fa-spin').toggleClass('hidden');
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
           request_form.resetForm();
         }
       });
 
       $('#upload').click(function() {
-        if ($('#avatar').val()) $('#spinner').toggleClass('fa-spin').toggleClass('hidden');
+      //- $('#request_form').submit(function() {
+        if ($('#avatar').val() && request_form.valid()) {
+          console.log('spinning...');
+          $('#spinner').addClass('fa-spin').removeClass('hidden');
+        }
         //- return false;
       });
     });
-  //- script.
+
+  script.
     $("#request_form").validate({
       //- debug: true,
-      errorClass: "input-error text-danger",
-      errorElement: "i",
+      errorClass: "text-danger",
+      errorElement: "span",
+      errorPlacement: function (error, element) {
+        element.parent()
+        error.insertAfter('#info');
+      },
       rules: {
         avatar: {
-          required: true
+          required: true,
+          extension: "jpe?g|png",
+          accept: "image/*",
+          filesize: 1*1024*1024
         }
       },
       messages: {
         avatar: {
-          required: "请选择要上传的图片！"
+          required: "请选择要上传的图片",
+          extension: "请上传 JPG 或 PNG 格式图片",
+          accept: "请上传 JPG 或 PNG 格式图片文件",
+          filesize: "请上传小于 1M 的文件"
         }
       }
     });

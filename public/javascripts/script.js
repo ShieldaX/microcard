@@ -4,3 +4,4 @@ $(function () {
   vcard && container.append($(Handlebars.templates.vcard_default(vcard)));
 });
 */
+
