@@ -8,6 +8,8 @@ var compress = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var flash = require('connect-flash');
+var multer = require('multer')
+
 
 // 路由依赖
 require('express-namespace')
@@ -33,6 +35,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(multer({
+  dest: './public/uploads/',
+  limit: {
+    fileSize: 2 * 1024 * 1024,
+    files: 2
+  }
+}));
+
 app.use(require('method-override')());
 app.use(cookieParser(config.session_secret));
 app.use(compress());

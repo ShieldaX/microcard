@@ -2,6 +2,7 @@
 var user = require('./controllers/user');
 var card = require('./controllers/card');
 var license = require('./controllers/license');
+var upload = require('./controllers/upload');
 
 // 加载中间件
 var auth = require('./middlewares/auth');
@@ -13,6 +14,12 @@ module.exports = function (app) {
   app.get('/', function (req, res) {
     res.render('index', { title: '微名片' });
   });
+
+  app.get('/upload', function (req, res) {
+    res.render('upload', {title: '上传图片'});
+  });
+
+  app.post('/upload', upload.handleAvatar);
 
   // 会员账户系统
   app.namespace('/user', function () {
