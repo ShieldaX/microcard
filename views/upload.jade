@@ -176,7 +176,8 @@ append scripts
             $('#info').text(res.data.message || '保存失败，请重新上传');
             //- button_save.addClass('disabled')
           } else {
-            $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
+            //- $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
+            $('#info').text(res.data.message);
             //- button_save.addClass('disabled')
           }
           $('#spinner').removeClass('fa-spin').addClass('hidden');

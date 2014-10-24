@@ -61,6 +61,14 @@ var CardSchema = new Schema({
 });
 
 /**
+ * Virtuals
+ */
+// Get hashed id
+// CardSchema.virtual('hashid').get(function () {
+//   return this._id;
+// });
+
+/**
  * Validators
  */
 

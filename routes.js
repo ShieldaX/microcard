@@ -15,11 +15,11 @@ module.exports = function (app) {
     res.render('index', { title: '微名片' });
   });
 
-  app.get('/upload', function (req, res) {
-    res.render('upload', {title: '上传图片'});
-  });
+  // app.get('/upload', function (req, res) {
+  //   res.render('upload', {title: '上传图片'});
+  // });
 
-  app.post('/upload', upload.handleAvatar);
+  // app.post('/upload', upload.handleAvatar);
 
   // 会员账户系统
   app.namespace('/user', function () {
@@ -37,7 +37,7 @@ module.exports = function (app) {
   });
 
   // 前台业务逻辑端
-  app.all('/card/*', auth.requireAuthentication);
+  app.all('/card*', auth.requireAuthentication);
   app.namespace('/card', function () {
 
     app.get('/validate', function (req, res) {
@@ -47,14 +47,20 @@ module.exports = function (app) {
     app.post('/validate', card.request);
 
     app.get('/', auth.requireLicense, function (req, res) {
-      res.render('card/form');
+      res.render('card/form', {title: '填写名片信息'});
     });
 
     app.post('/', auth.requireLicense, card.create);
 
     app.get('/share', card.share); // ../card/share?id=xxx
 
-    app.get('/:id', card.display);
+    // app.get('/:id', card.display);
+
+    app.get('/upload/:id', function (req, res) {
+      res.render('upload', {title: '设置名片头像'});
+    });
+
+    app.post('/upload/:id', upload.handleAvatar);
   });
 
   // 移动展示端
