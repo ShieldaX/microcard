@@ -48,6 +48,10 @@ var CardSchema = new Schema({
   write: {
     type: String
   },
+  // 头像路径
+  avatar: {
+    type: String
+  },
   // 创建时间
   created: {
     type: Date,

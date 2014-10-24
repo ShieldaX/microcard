@@ -39,6 +39,7 @@ block content
                 input#y(type="hidden", name="y")
                 input#w(type="hidden", name="w")
                 input#h(type="hidden", name="h")
+                input#tempimage(type="hidden", name="image")
                 button.btn.btn-success.disabled#save(type="submit") 保 存 头 像
           .clearfix
           br
@@ -77,7 +78,7 @@ append scripts
         $('#y').val(c.y);
         $('#w').val(c.w);
         $('#h').val(c.h);
-        //- console.log(c);
+        console.log(c);
 
         $('#preview_img').css({
           width: Math.round(rx * boundx) + 'px',
@@ -92,7 +93,7 @@ append scripts
 
       if (jcrop_api) jcrop_api.destroy(); //tear down firstly
       //- if (jcrop_api) jcrop_api.release(); //tear down firstly
-
+      $('#tempimage').val(img.path);
       $('#imgarea').replaceWith('<img class="img-responsive pull-right" id="imgarea" src="'+img.path+'">');
       //- $('.img_placehoder').parent().toggleClass('hidden');
       //- $('#uploaded_img').attr('src', img.path);
@@ -132,6 +133,7 @@ append scripts
     $(document).ready(function() {
       var button_save = $('#save');
       var request_form = $('#request_form'); // cache form jq handler
+      var save_avatar = $('#save_avatar'); // cached form handler
       request_form.ajaxForm({
         //- url: '/upload',
         //- type: 'POST',
@@ -163,16 +165,36 @@ append scripts
         }
         //- return false;
       });
+
+      $('#save').click(function() {
+        $('#spinner').addClass('fa-spin').removeClass('hidden');
+      });
+
+      save_avatar.ajaxForm({
+        success: function(res, status, xhr, _form) {
+          if (!res.success) {
+            $('#info').text(res.data.message || '保存失败，请重新上传');
+            //- button_save.addClass('disabled')
+          } else {
+            $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
+            //- button_save.addClass('disabled')
+          }
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+        },
+        error: function (res, status, error) {
+          $('#info').text('网络错误，请重试');
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+        }
+      });
     });
 
   script.
     $("#request_form").validate({
       //- debug: true,
-      errorClass: "text-danger",
+      errorClass: "text-warning",
       errorElement: "span",
       errorPlacement: function (error, element) {
-        element.parent()
-        error.insertAfter('#info');
+        error.insertAfter('#spinner');
       },
       rules: {
         avatar: {
