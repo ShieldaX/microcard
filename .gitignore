@@ -18,6 +18,8 @@ config.js
 
 public/components
 
+public/uploads/*
+
 # Ignore Mac OS desktop services store
 .DS_Store
 

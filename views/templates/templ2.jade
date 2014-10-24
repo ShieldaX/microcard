@@ -23,7 +23,8 @@ html
       .container-fluid.head
         .row
           .head.col-lg-12
-            img.avatar.img-circle.img-thumbnail.center-block(src="http://lorempixel.com/140/140/city")
+            - var avatar = card.avatar ? "/uploads/avatar/" + card.avatar : "http://lorempixel.com/140/140/city";
+            img.avatar.img-circle.img-thumbnail.center-block(src=avatar)
           .name.col-xs-12
             h2.text-center
               strong= card.name

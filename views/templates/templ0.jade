@@ -24,7 +24,8 @@ html
       .container
         .row
           .col-lg-12
-            img.avatar.img-circle.img-responsive.img-thumbnail.center-block(alt="140x140", src="http://lorempixel.com/140/140/city")
+            - var avatar = card.avatar ? "/uploads/avatar/" + card.avatar : "http://lorempixel.com/140/140/city";
+            img.avatar.img-circle.img-responsive.img-thumbnail.center-block(alt="140x140", src=avatar)
             h2.text-center= card.name
             h4.text-center= card.position
 
