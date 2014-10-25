@@ -16,39 +16,52 @@ block content
     .col-sm-8.col-sm-offset-2
       include ../includes/message
     .clearfix
-    h3.text-center: i.fa.fa-list-alt
+    h3.text-center: i.fa.fa-ticket
       |  制作码管理
     hr
-    #licenses.col-sm-6.col-sm-offset-3
-      .btn-group.pull-right
-        a(href="").btn.btn-default.active 全部
-        a(href="?active=1").btn.btn-default 未使用
-        a(href="?active=0").btn.btn-default 已使用
-      form(method="POST")
-        .form-group
-          button.btn.btn-link: i.fa.fa-certificate.text-success
-      .clearfix
-      .list
-        ul.list-group
-          each license in licenses
-            li.list-group-item
-              //- button.pull-right.btn.btn-link(title="复制"): span.fa.fa-copy
-              h3.list-group-item-heading= license.code
-                small(title="点击复制制作码")
-                  i.fa.fa-copy.text-primary
-              p.list-group-item-text
-                span
-                  i.fa.fa-clock-o
-                  | #{license.created.toLocaleTimeString()} #{license.created.toLocaleDateString()}
-                span.pull-right 状态：
-                  if license.active
-                    i.fa.fa-dot-circle-o.text-success(title="可用")
-                  else
-                    i.fa.fa-dot-circle-o.text-danger(title="不可用")
-      form.form-inline(method="POST", action="/admin/licenses/ban")
-        .form-group
-          label(for="code") 注销制作码：
-          input.form-control(type="text", id="code", name="code")
-        .form-group
-          | &nbsp;&nbsp;
-          button.btn.btn-danger(type="submit"): i.fa.fa-ban
+
+  .container
+    .row
+      .col-sm-4.col-xs-12
+        .row
+          .col-sm-8
+            .list-group
+              a.list-group-item(href='/admin/licenses')
+                i.fa.fa-fw.fa-ticket.fa-lg.text-danger
+                | &nbsp; 管理制作码
+              a.list-group-item(href='/admin/cards')
+                i.fa.fa-fw.fa-credit-card.fa-lg
+                | &nbsp; 名片一览
+      #licenses.col-sm-6.col-xs-12
+        .btn-group.pull-right
+          a(href="").btn.btn-default.active 全部
+          a(href="?active=1").btn.btn-default 未使用
+          a(href="?active=0").btn.btn-default 已使用
+        form(method="POST")
+          .form-group
+            button.btn.btn-link: i.fa.fa-certificate.text-success
+        .clearfix
+        .list
+          ul.list-group
+            each license in licenses
+              li.list-group-item
+                //- button.pull-right.btn.btn-link(title="复制"): span.fa.fa-copy
+                h3.list-group-item-heading= license.code
+                  small(title="点击复制制作码")
+                    i.fa.fa-copy.text-primary
+                p.list-group-item-text
+                  span
+                    i.fa.fa-clock-o
+                    | #{license.created.toLocaleTimeString()} #{license.created.toLocaleDateString()}
+                  span.pull-right 状态：
+                    if license.active
+                      i.fa.fa-dot-circle-o.text-success(title="可用")
+                    else
+                      i.fa.fa-dot-circle-o.text-danger(title="不可用")
+        form.form-inline(method="POST", action="/admin/licenses/ban")
+          .form-group
+            label(for="code") 注销制作码：
+            input.form-control(type="text", id="code", name="code")
+          .form-group
+            | &nbsp;&nbsp;
+            button.btn.btn-danger(type="submit"): i.fa.fa-ban

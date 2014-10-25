@@ -9,7 +9,7 @@ block content
         span.fa.fa-user
         |  注册会员
       br
-      form(action="/user/signup", method="post")
+      form#signup_form(action="/user/signup", method="post", role="form")
         //- .form-group
         //-   label(for="email") 电子邮箱
         //-   .input-group
@@ -22,11 +22,18 @@ block content
         //-     input.form-control(type="password", name="password", placeholder="请填写密码以保护您的账户安全")
 
         .form-group
-          label(for="email") 电子邮箱
-          input.form-control(type="email", id="email", name="email", placeholder="请输入常用的邮箱地址", autofocus)
+          label(for="email") 电子邮箱：
+          input.form-control(type="email", id="email", name="email", placeholder="", autofocus, required)
+          p.help-block
+            small 请填写有效的邮箱地址，在您忘记密码时，通过邮箱进行重置
         .form-group
-          label 密码
-          input.form-control(type="password", name="password", placeholder="请填写密码以方便您以后管理名片")
+          label 密码：
+          input.form-control#password(type="password", name="password", placeholder="", required)
+          p.help-block
+            small 以字母开头，长度在6~18之间，只能包含字符、数字和下划线
+        .form-group
+          label 确认密码：
+          input.form-control#password_confirm(type="password", name="password_confirm", placeholder="")
         button.btn.btn-warning.btn-lg(type="submit") 注 册
         | &nbsp;&nbsp;
         | 已经有账号&nbsp;
@@ -38,3 +45,43 @@ block content
         | &nbsp;&nbsp;点击注册
         |，即表示您已阅读并同意我们的
         a 《利用规约》
+
+append scripts
+  script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  script(type="text/javascript", src="/javascripts/validator_methods.js")
+  script.
+    $("#signup_form").validate({
+      //- debug: true,
+      errorClass: "text-danger",
+      errorElement: "span",
+      errorPlacement: function (error, element) {
+        error.insertAfter(element.prev());
+      },
+      rules: {
+        email: {
+          required: true,
+          email: true
+        },
+        password: {
+          //- minlength: 6,
+          ispassword: true,
+          required: true
+        },
+        password_confirm: {
+          equalTo: '#password'
+        }
+      },
+      messages: {
+        email: {
+          required: "请填写注册邮箱",
+          email: "请填写有效的邮箱地址"
+        },
+        password: {
+          required: "请填写密码以保护您的账户安全",
+          ispassword: "密码格式不正确"
+        },
+        password_confirm: {
+          equalTo: '您两次输入的密码不一致，请确认'
+        }
+      }
+    });

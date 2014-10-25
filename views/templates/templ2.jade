@@ -3,6 +3,13 @@ mixin display(key)
     if block
       block
 
+mixin block_with(keys)
+  if keys
+    if block
+      block
+
+- var httpReg = new RegExp('http://|https://', 'g')
+
 doctype html
 html
   head
@@ -28,8 +35,9 @@ html
           .name.col-xs-12
             h2.text-center
               strong= card.name
-            h3.text-center
-              span.small= card.position
+            if card.position
+              h3.text-center
+                span.small= card.position
 
         .company.row.bg-white
           .com.col-xs-12
@@ -42,47 +50,57 @@ html
             .contact.col-xs-6
               p
                 i.glyphicon.glyphicon-phone
-                span= card.mobile
-          +display(card.mobile)
-          +display(card.unfinished)
-          .contact.col-xs-6
-            p
-              i.fa.fa-phone.fa-fw
-              span= card.phone
+                span= card.mobile.replace('0', '1')
+          //- +display(card.mobile)
+          +display(card.phone)
+            .contact.col-xs-6
+              p
+                i.fa.fa-phone.fa-fw
+                span= card.phone
 
-          .contact.col-xs-6
-            p
-              i.fa.fa-fw.fa-envelope
-              span= card.email
-          .contact.col-xs-12
-            p.text-nowrap
-              i.fa.fa-fw.fa-globe
-              span= card.site
-          .contact.col-xs-12
-            address
-              i.fa.fa-fw.fa-map-marker
-              strong= card.address
+          +display(card.email)
+            .contact.col-xs-6
+              p
+                i.fa.fa-fw.fa-envelope
+                span= card.email
+
+          +display(card.site)
+            .contact.col-xs-12
+              p.text-nowrap
+                i.fa.fa-fw.fa-globe
+                a(href=card.site): span= card.site.replace(httpReg, '')
+
+          +display(card.site)
+            .contact.col-xs-12
+              address
+                i.fa.fa-fw.fa-map-marker
+                strong= card.address
 
       .container-fluid
         .info.row.bg-white
-          .contact.col-xs-6
-            p
-              i.fa.fa-fw.fa-qq
-              span= card.qq
-          .contact.col-xs-6
-            p
-              i.fa.fa-weixin.fa-fw
-              span= card.weixin
-          .contact.col-xs-6
-            p
-              i.fa.fa-fw.fa-weibo
-              span= card.weibo
-      .container-fluid
-        .words.row.bg-white
-          .col-xs-12
-            p.text-justify(style="line-height: 2em")
-              i.text-muted.fa.fa-quote-left
-              |  #{card.write}
+          if card.qq
+            .contact.col-xs-6
+              p
+                i.fa.fa-fw.fa-qq
+                span= card.qq
+          if card.weixin
+            .contact.col-xs-6
+              p
+                i.fa.fa-weixin.fa-fw
+                span= card.weixin
+          if card.weibo
+            .contact.col-xs-6
+              p
+                i.fa.fa-fw.fa-weibo
+                span= card.weibo
+
+      if card.write
+        .container-fluid
+          .words.row.bg-white
+            .col-xs-12
+              p.text-justify(style="line-height: 2em")
+                i.text-muted.fa.fa-quote-left
+                |  #{card.write}
 
       .container-fluid
         .row
@@ -111,6 +129,6 @@ html
         $(window).scroll(function() {
           var opacity = $(document).scrollTop()/100;
           opacity = opacity <= 1 ? opacity : 1;
-          console.log('opacity: '+opacity);
+          //- console.log('opacity: '+opacity);
           $('.top_bg.blur').css({opacity: opacity + ''});
         });

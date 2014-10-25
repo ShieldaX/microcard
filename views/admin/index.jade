@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  .container
+    h3.text-center: i.fa.fa-user-md.text-warning
+      |  在线管理
+    hr
+  .container
+    .row
+      .col-sm-4.col-sm-offset-2.col-xs-12
+        .row
+          .col-sm-8
+            .list-group
+              a.list-group-item(href='/admin/licenses')
+                i.fa.fa-fw.fa-ticket.fa-lg
+                | &nbsp; 管理制作码
+              a.list-group-item(href='/admin/cards')
+                i.fa.fa-fw.fa-credit-card.fa-lg
+                | &nbsp; 名片一览
+              //- a.list-group-item(href='/admin/users')
+                i.fa.fa-fw.fa-users.fa-lg
+                | &nbsp; 管理用户
+    //- #cards.col-sm-6.col-sm-offset-3
+      .list
+        ul.list-group
+          each card, index in cards
+            li.list-group-item
+              span.fa.fa-eye.text-muted.pull-right
+              h4.list-group-item-heading= card.name
+              p.list-group-item-text
+                a(href="/v/#{card.id}")
+                  span ID:&nbsp;
+                  | #{card.id}

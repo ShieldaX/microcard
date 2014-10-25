@@ -200,7 +200,7 @@ width: 20px;
 
 /* parallax elements */
 .parallax { background-position: 50% 500%; background-repeat: no-repeat; background-attachment: fixed; }
-#about {background-image: url(./images/bg-user.png); }
+/*#about {background-image: url(./images/bg-user.png); }
 #personalinfo {background-image: url(./images/bg-nameplate.png); }
 #education {background-image: url(./images/bg-certificate.png); }
 #employment {background-image: url(./images/bg-share_alt.png); }
@@ -214,7 +214,7 @@ width: 20px;
 #social {background-image: url(./images/bg-heart.png); }
 #tweetr {background-image: url(./images/bg-bullhorn.png); }
 #contact {background-image: url(./images/bg-envelope.png); }
-#download {background-image: url(./images/bg-paperclip.png); }
+#download {background-image: url(./images/bg-paperclip.png); }*/
 
 /* home block */
 #home .wrap .row {padding-top: 60px; padding-bottom: 30px !important;}

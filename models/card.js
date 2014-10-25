@@ -20,7 +20,7 @@ var CardSchema = new Schema({
   // 姓名
   name: {
     type: String,
-    required: true
+    // required: true
   },
   // 公司
   company: String,
@@ -48,9 +48,14 @@ var CardSchema = new Schema({
   write: {
     type: String
   },
-  // 头像路径
+  // 头像
   avatar: {
     type: String
+  },
+  // 创建时使用的制作码
+  license: {
+    type: String,
+    select: false
   },
   // 创建时间
   created: {

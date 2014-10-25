@@ -9,19 +9,50 @@ block content
         span.fa.fa-sign-in
         |  会员登录
       br
-      form(action="/user/signin", method="post")
+      form#signin_form(action="/user/signin", method="post", role="form")
           .form-group
-            label 账号
-            input.form-control(type="email", name="email", placeholder="请输入登录邮箱", autofocus)
+            label 账号：
+            input.form-control(type="email", name="email", placeholder="请输入登录邮箱", autofocus, required)
           .form-group
-            label 密码
-            input.form-control(type="password", name="password", placeholder="请输入密码")
+            label 密码：
+            input.form-control(type="password", name="password", placeholder="请输入密码", required)
           button.btn.btn-warning.btn-lg(type="submit", title="点击按钮登录账户") 登 录
           | &nbsp;&nbsp;&nbsp;&nbsp;
           | 还没有账号?
           a(href='/user/signup', title="点击注册会员") 立即注册&nbsp;
             i.fa.fa-arrow-circle-right
       hr
-      p.small
+      //- p.small
         a(title="点击链接重置密码") 忘记登录密码&nbsp;
           i.fa.fa-question
+
+append scripts
+  script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  //- script(type="text/javascript", src="/javascripts/validator_methods.js")
+  script.
+    $("#signin_form").validate({
+      //- debug: true,
+      errorClass: "text-danger",
+      errorElement: "span",
+      errorPlacement: function (error, element) {
+        error.insertAfter(element.prev());
+      },
+      rules: {
+        email: {
+          required: true
+          //- email: true
+        },
+        password: {
+          required: true
+        }
+      },
+      messages: {
+        email: {
+          required: "请输入您的邮箱账号"
+          //- email: "请填写有效的邮箱地址"
+        },
+        password: {
+          required: "请输入您的密码"
+        }
+      }
+    });

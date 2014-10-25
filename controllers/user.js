@@ -29,7 +29,7 @@ exports.create = function (req, res) {
         return res.render('user/register', {error: req.flash('error')});
       }
       passport.authenticate('local')(req, res, function () {
-        req.flash('info', '注册成功');
+        // req.flash('info', '注册成功');
         res.redirect(signinRedirct);
       });
     }
@@ -44,7 +44,7 @@ exports.login = function (req, res) {
 exports.authenticate = function (req, res, next) {
   var authOptions = {
     successRedirect: signinRedirct,
-    successFlash: '登录成功',
+    // successFlash: '登录成功',
     failureRedirect: '/user/signin',
     failureFlash: '用户名密码不匹配'
   };

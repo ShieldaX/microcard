@@ -10,16 +10,23 @@ var IMG_SIZE_LIMIT = 1 * 1024 * 1024; //限制上传图片的文件大小(byte)
 var IMG_MAX_DIM = 1024; //上传图片的最大尺寸(px)
 var AVATAR_DIM = 140; //默认头像尺寸(px)
 
+exports.avatarForm = function (req, res) {
+  // TODO: 验证ID
+  res.render('upload', {title: '设置名片头像'});
+};
+
 exports.handleAvatar = function (req, res, next) {
   var cardid = req.param('id');
   Card.findById(cardid, function (error, card) {
     if (error) { return next(error); }
-    req.card = card; // set current card in req object
-    console.log(card);
-    if (req.files && req.files.avatar) {
-      uploadAjax(req, res);
-    } else {
-      uploadAvatar(req, res, next);
+    if (card) {
+      req.card = card; // set current card in req object
+      console.log(card);
+      if (req.files && req.files.avatar) {
+        uploadAjax(req, res);
+      } else {
+        uploadAvatar(req, res, next);
+      }
     }
   });
 };

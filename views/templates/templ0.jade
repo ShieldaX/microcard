@@ -42,32 +42,39 @@ html
                 //- | #{card.address}
 
             ul.list-unstyled
-              li
-                i.glyphicon.glyphicon-envelope
-                | &nbsp;
-                a(href="mailto:#{card.email}") #{card.email || 'yourname@example.com'}
-              li
-                i.glyphicon.glyphicon-phone
-                | &nbsp;#{card.phone}
-              li
-                i.glyphicon.glyphicon-globe
-                | &nbsp;#{card.site}
-              li
-                i.glyphicon.glyphicon-phone-alt
-                | &nbsp;9999 123 456
+              if card.email
+                li
+                  i.glyphicon.glyphicon-envelope
+                  | &nbsp;
+                  a(href="mailto:#{card.email}")= card.email
+              if card.mobile
+                li
+                  i.glyphicon.glyphicon-phone
+                  | &nbsp;#{card.mobile}
+              if card.phone
+                li
+                  i.glyphicon.glyphicon-phone-alt
+                  | &nbsp;#{card.phone}
+              if card.site
+                li
+                  i.glyphicon.glyphicon-globe
+                  | &nbsp;#{card.site}
 
-
-        .row.text-center
-          .col-md-6.col-sm-12.col-xs-12.col-md-offset-3
-            a.btn.btn-link
-              i.fa.fa-lg.fa-qq.text-info
-              | #{card.qq}
-            a.btn.btn-link
-              i.fa.fa-lg.fa-weixin.text-success
-              | #{card.weixin}
-            a.btn.btn-link
-              i.fa.fa-lg.fa-weibo.text-danger
-              | #{card.weibo}
+        if card.qq || card.weixin || card.weibo
+          .row.text-center
+            .col-md-6.col-sm-12.col-xs-12.col-md-offset-3
+              if card.qq
+                a.btn.btn-link
+                  i.fa.fa-lg.fa-qq.text-info
+                  | #{card.qq}
+              if card.weixin
+                a.btn.btn-link
+                  i.fa.fa-lg.fa-weixin.text-success
+                  | #{card.weixin}
+              if card.weibo
+                a.btn.btn-link
+                  i.fa.fa-lg.fa-weibo.text-danger
+                  | #{card.weibo}
 
       .container.about
         .row

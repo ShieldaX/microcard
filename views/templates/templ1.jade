@@ -30,8 +30,9 @@ html
                 img(src=avatar, style="width: 150px; height: 150px;")
               p#hello 你好, 我叫
               h1#ccname= card.name
-              p#iam 担任
-              h2#ccfunction= card.position
+              if card.position
+                p#iam 我是
+                h2#ccfunction= card.position
 
       #personalinfo.cream-container.parallax
         .icon-container
@@ -42,14 +43,21 @@ html
             .col.dimfull.text-center
               h2= card.company
               dl.row
-                dt.col.dim1half.text-right.padright Email
-                dd.col.dim1half.text-left.padleft= card.email
-                dt.col.dim1half.text-right.padright Phone
-                dd.col.dim1half.text-left.padleft= card.phone
-                dt.col.dim1half.text-right.padright Website
-                dd.col.dim1half.text-left.padleft= card.site
-                dt.col.dim1half.text-right.padright Address
-                dd.col.dim1half.text-left.padleft= card.address
+                if card.email
+                  dt.col.dim1half.text-right.padright 邮箱
+                  dd.col.dim1half.text-left.padleft= card.email
+                if card.mobile
+                  dt.col.dim1half.text-right.padright 手机
+                  dd.col.dim1half.text-left.padleft= card.mobile
+                if card.phone
+                  dt.col.dim1half.text-right.padright 电话
+                  dd.col.dim1half.text-left.padleft= card.phone
+                if card.site
+                  dt.col.dim1half.text-right.padright 主页
+                  dd.col.dim1half.text-left.padleft= card.site
+                if card.address
+                  dt.col.dim1half.text-right.padright 地址
+                  dd.col.dim1half.text-left.padleft= card.address
 
       #social.coffee-container.parallex
         .icon-container
