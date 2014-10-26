@@ -16,6 +16,10 @@ module.exports = function (app) {
     res.render('index', { title: '微名片' });
   });
 
+  app.get('/404', function (req, res) {
+    res.render('404', { title: '页面不存在'});
+  });
+
   // app.get('/upload', function (req, res) {
   //   res.render('upload', {title: '上传图片'});
   // });
@@ -74,14 +78,14 @@ module.exports = function (app) {
 
     app.post('/:id/avatar', upload.handleAvatar);
 
-    // app.get('/:id/template', auth.loadCard, card.templateForm);
+    // app.get('/:id/template', auth.loadUserCardById, card.templateForm);
 
-    // app.post('/:id/template', auth.loadCard, card.updateTemplate);
+    // app.post('/:id/template', auth.loadUserCardById, card.updateTemplate);
   });
 
   // 移动展示端
   app.namespace('/v', function () {
-    app.get('/:id', card.data, card.template);
+    app.get('/:id', card.data, card.display);
   });
 
   app.all('/admin*', auth.requireAuthentication, auth.requireAdmin);

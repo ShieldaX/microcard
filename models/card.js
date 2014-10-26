@@ -52,6 +52,10 @@ var CardSchema = new Schema({
   avatar: {
     type: String
   },
+  // 模板
+  template: {
+    type: String
+  },
   // 创建时使用的制作码
   license: {
     type: String,

@@ -66,7 +66,7 @@ exports.requireLicense = function (req, res, next) {
   }
 };
 
-exports.loadCard = function (req, res, next) {
+exports.loadUserCardById = function (req, res, next) {
   var uid = req.user.id;
   var cid = req.param('id');
   if (typeof cid == 'undefined') return next();
