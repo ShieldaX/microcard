@@ -61,6 +61,7 @@ append scripts
   script(type="text/javascript", src="/javascripts/validator_methods.js")
   script(type="text/javascript", src="/components/jcrop/js/jquery.Jcrop.min.js")
   script(type="text/javascript", src="http://libs.useso.com/js/jquery.form/3.50/jquery.form.min.js")
+  script(type="text/javascript", src="/components/bootbox/bootbox.js")
   script.
 
     var jcrop_api;
@@ -130,6 +131,37 @@ append scripts
       });
     }
 
+    function confirm_publish() {
+      bootbox.dialog({
+        message: "头像已成功上传，现在发布名片？",
+        //- title: "Custom title",
+        buttons: {
+
+          theme: {
+            label: "选择主题",
+            className: "btn-success",
+            callback: function() {
+              window.location.href = './template';
+            }
+          },
+          publish: {
+            label: "现在发布",
+            className: "btn-warning",
+            callback: function() {
+              window.location.href = './share';
+            }
+          },
+          cancel: {
+            label: "取消",
+            className: "btn-default",
+            callback: function() {
+              //- Example.show("uh oh, look out!");
+            }
+          }
+        }
+      });
+    }
+
     $(document).ready(function() {
       var button_save = $('#save');
       var request_form = $('#request_form'); // cache form jq handler
@@ -181,7 +213,8 @@ append scripts
             //- $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
             $('#info').text(res.data.message);
             button_save.addClass('disabled');
-            window.setInterval(function() { window.location.href = jumpTo; }, 1000);
+            //- window.setInterval(function() { window.location.href = jumpTo; }, 1000);
+            window.setTimeout(confirm_publish, 1000);
           }
           $('#spinner').removeClass('fa-spin').addClass('hidden');
         },
