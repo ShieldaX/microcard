@@ -39,8 +39,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer({
   dest: './public/uploads/',
   limit: {
-    fileSize: 2 * 1024 * 1024,
-    files: 2
+    fileSize: 1 * 1024 * 1024,
+    files: 1
   }
 }));
 
