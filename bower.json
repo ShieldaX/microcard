@@ -22,7 +22,8 @@
     "font-awesome": "~4.2.0",
     "handlebars": "~2.0.0",
     "jquery-validation": "~1.13.1",
-    "jcrop": "~0.9.12"
+    "jcrop": "~0.9.12",
+    "bootbox": "~4.3.0"
   },
   "devDependencies": {}
 }

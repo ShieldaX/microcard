@@ -1,0 +1,137 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .col-lg-12
+        .row
+          .col-lg-6.col-lg-offset-3.text-center
+            include ../includes/message
+            .alert.alert-dismissable.alert-success.hidden
+
+        h2
+          i.fa.fa-puzzle-piece
+          |  选择主题 &nbsp;
+          i.fa.fa-spinner.text-success#spinner.hidden
+          a#publish.btn.btn-success.btn-lg.pull-right 完 成
+      .col-lg-12
+        p
+          | 请从下方选择任意一个主题，完成后点击完成按钮发布名片&nbsp;
+          span#info.text-danger
+        hr
+  .container
+    form#template_form(method="post", role="form")
+      input#current(type="hidden", name="template", value=card.template)
+      .row
+        .col-lg-3.template_wrapper(data-tpl="templ0")
+          .thumbnail.template_preview
+            img.img-square.img-responsive(src="/images/templates/templ0.png")
+          .caption.text-center
+            h4 美丽风景
+              small (默认)
+            p: button(type="submit").btn.btn-warning.chooser 更换
+        .col-lg-3.template_wrapper(data-tpl="templ1")
+          .thumbnail.template_preview
+            img.img-square.img-responsive(src="/images/templates/templ1.png")
+          .caption.text-center
+            h4 休闲时光
+            p: button(type="submit").btn.btn-warning.chooser 更换
+        .col-lg-3.template_wrapper(data-tpl="templ2")
+          .thumbnail.template_preview
+            img.img-square.img-responsive(src="/images/templates/templ2.png")
+          .caption.text-center
+            h4 英伦信封
+            p: button(type="submit").btn.btn-warning.chooser 更换
+        .col-lg-3
+          .caption.text-center(style="padding-top: 200px;")
+            h4.text-muted 更多主题，免费更新...
+
+append scripts
+  script(type="text/javascript", src="http://libs.useso.com/js/jquery.form/3.50/jquery.form.min.js")
+  script(type="text/javascript", src="/components/bootbox/bootbox.js")
+  script.
+
+    function chooseTemplate (templ) {
+      templ = templ ? templ : 'templ0';
+      //- console.log(templ);
+      $('.template_preview').removeClass('active');
+      //- console.log($('div[data-tpl="'+templ+'"]').find('.template_preview').length);
+      var wrapper = $('div[data-tpl="'+templ+'"]');
+      $('div[data-tpl="'+templ+'"]').find('.template_preview').addClass('active');
+      wrapper.find('button').removeClass('btn-warning').addClass('btn-link').text('已选择').blur();
+      var other_warppers = $('div[data-tpl!="'+templ+'"]').filter('.template_wrapper');
+      other_warppers.find('button').addClass('btn-warning').removeClass('btn-link').text('更换');
+      //- console.log(other_warppers);
+    }
+
+    function confirm_publish() {
+      bootbox.dialog({
+        message: "主题已更换，现在发布名片？",
+        //- title: "Custom title",
+        buttons: {
+          cancel: {
+            label: "取消",
+            className: "btn-default",
+            callback: function() {
+              //- Example.show("uh oh, look out!");
+            }
+          },
+          success: {
+            label: "现在发布",
+            className: "btn-success",
+            callback: function() {
+              window.location.href = './share';
+            }
+          }
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      chooseTemplate($('#current').val());
+      var button_save = $('.chooser');
+      var choose_form = $('#template_form'); // cache form jq handler
+      choose_form.ajaxForm({
+        success: function(res, status, xhr, _form) {
+          if (!res.success) {
+            $('#info').text(res.data.message);
+          } else {
+            //- button_save.removeClass('disabled')
+            //- $('.alert-success').removeClass('hidden').text(res.data.message);
+            chooseTemplate(res.data.template);
+            //- $('body').animate({scrollTop: 0}, 600);
+            window.setTimeout(confirm_publish, 800);
+          }
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+          //- choose_form.resetForm();
+        },
+        error: function (res, status, error) {
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+          //- choose_form.resetForm();
+        }
+      });
+
+      $('.chooser').click(function() {
+        $('#spinner').addClass('fa-spin').removeClass('hidden');
+        var templ = $(this).closest('.template_wrapper').data('tpl');
+        console.log(templ);
+        //- console.log($('div[data-tpl="'+templ+'"]').length);
+        var current = $('#current').val();
+        if (current != templ) {
+          //- Change the template
+          $('#current').val(templ);
+          console.log($('#current').val());
+          return true;
+        } else {
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+        }
+        return false;
+
+      });
+
+      $('#publish').click(function (event) {
+        event.preventDefault();
+        window.location.href = './share';
+      });
+
+    });

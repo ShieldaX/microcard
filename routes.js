@@ -17,7 +17,11 @@ module.exports = function (app) {
   });
 
   app.get('/404', function (req, res) {
-    res.render('404', { title: '页面不存在'});
+    console.log('404 handler..')
+    res.render('404', {
+      status: 404,
+      title: '页面不存在',
+    });
   });
 
   // app.get('/upload', function (req, res) {
@@ -45,14 +49,7 @@ module.exports = function (app) {
   app.all('/card*', auth.requireAuthentication);
   app.namespace('/card', function () {
 
-    app.get('/', function (req, res) {
-      if (res.card) {
-        var cid = res.card.id;
-        res.redirect('/card/'+cid);
-      } else {
-        res.redirect('/card/validate');
-      }
-    });
+    app.get('/', card.master);
 
     app.get('/validate', function (req, res) {
       res.render('card/validate', {error: req.flash('error')});
@@ -78,9 +75,9 @@ module.exports = function (app) {
 
     app.post('/:id/avatar', upload.handleAvatar);
 
-    // app.get('/:id/template', auth.loadUserCardById, card.templateForm);
+    app.get('/:id/template', auth.loadUserCardById, card.chooseTemplate);
 
-    // app.post('/:id/template', auth.loadUserCardById, card.updateTemplate);
+    app.post('/:id/template', auth.loadUserCardById, card.setTemplate);
   });
 
   // 移动展示端
@@ -102,6 +99,14 @@ module.exports = function (app) {
       app.get('/', license.list);
       app.post('/', license.apply);
       app.post('/ban', license.use);
+    });
+  });
+
+  app.get('*', function(req, res) {
+    console.log('404 handler..')
+    res.render('404', {
+      status: 404,
+      title: '页面不存在',
     });
   });
 };

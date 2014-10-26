@@ -170,6 +170,8 @@ append scripts
         $('#spinner').addClass('fa-spin').removeClass('hidden');
       });
 
+      var jumpTo = window.location.href.replace('avatar', 'share');
+      console.log(jumpTo);
       save_avatar.ajaxForm({
         success: function(res, status, xhr, _form) {
           if (!res.success) {
@@ -178,7 +180,8 @@ append scripts
           } else {
             //- $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
             $('#info').text(res.data.message);
-            //- button_save.addClass('disabled')
+            button_save.addClass('disabled');
+            window.setInterval(function() { window.location.href = jumpTo; }, 1000);
           }
           $('#spinner').removeClass('fa-spin').addClass('hidden');
         },

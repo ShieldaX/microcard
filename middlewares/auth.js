@@ -1,6 +1,7 @@
 //auth.js
 var config = require('../config').config;
 var User = require('../models/user');
+var Card = require('../models/card');
 
 //route middleware
 exports.requireAuthentication = function (req, res, next) {
@@ -56,6 +57,7 @@ exports.requireAdmin = function (req, res, next) {
   }
 }
 
+/*
 exports.requireLicense = function (req, res, next) {
   if (!!req.session.license) {
     console.log(req.session.license);
@@ -65,6 +67,7 @@ exports.requireLicense = function (req, res, next) {
     res.redirect('/card/validate');
   }
 };
+*/
 
 exports.loadUserCardById = function (req, res, next) {
   var uid = req.user.id;
