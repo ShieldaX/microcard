@@ -8,8 +8,17 @@ block content
     .row
       .col-lg-12
         include ../includes/message
-        h2.text-center: i.fa.fa-smile-o
-          |  设置头像
+        h2
+          i.fa.fa-smile-o
+          |  设置头像 &nbsp;
+          a.btn.btn-primary(href="/card/"+card.id)
+            span.fa.fa-angle-left
+            |  完 成
+      .col-lg-12
+        p
+          | 上传自己喜欢的图片展示个性，或点击“完成”回到编辑页面&nbsp;
+          //- i.fa.fa-arrow-circle-right
+          span#info.text-danger
         hr
   .container
     .row
@@ -185,7 +194,7 @@ append scripts
             //- $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
             $('#info').text(res.data.message);
             button_save.addClass('disabled');
-            window.setTimeout(function() { window.location.href = jumpTo; }, 1000);
+            window.setTimeout(function() { window.location.href = jumpTo; }, 800);
           }
           $('#spinner').removeClass('fa-spin').addClass('hidden');
         },

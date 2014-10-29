@@ -5,58 +5,101 @@ extends ../layout
 block content
   .container
     .row
-      each card in cards
-        .col-md-5.toppad.pull-right.col-md-offset-3
-          a(href="./card/"+card.id) 编辑
-          br
-          p.text-info= card.created
-        div(class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad")
-          .panel.panel-info
-            .panel-heading
-              h3.page-title= card.name
-            .panel-body
-              .row
-                .col-md-3.col-lg-3(algin="center")
-                  img.img-circle(src="//placehold.it/120")
-                .col-md-9.col-lg-9
-                  table.table.table-user-information
-                    tbody
-                      tr
-                        td 公司：
-                        td= card.company
-                      tr
-                        td 职位：
-                        td= card.position
-                      tr
-                        td 手机：
-                        td= card.mobile
-                      tr
-                        td 电话：
-                        td= card.phone
-                      tr
-                        td 手机：
-                        td= card.mobile
-                      tr
-                        td 邮箱：
-                        td= card.email
-                      tr
-                        td 网址：
-                        td= card.site
-                      tr
-                        td 地址：
-                        td= card.address
-                      tr
-                        td QQ：
-                        td= card.site
-                      tr
-                        td 微信：
-                        td= card.weixin
-                      tr
-                        td 微博：
-                        td= card.weibo
-                      tr
-                        td 个性签名：
-                        td= card.write
-                  a.btn.btn-primary My Sales Performance
-                  a.btn.btn-primary My Sales Performance
-            .panel-footer
+
+  .container
+    h2
+      i.fa.fa-list
+      |  我的名片
+    hr
+    .row
+      .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-10.col-xs-offset-1
+        each card in cards
+          .row.well
+            .col-md-3.col-sm-12
+              - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/140";
+              img.img-circle.center-block.img-responsive(src=avatar_src)
+              h2.text-center.hidden-lg.hidden-md #{card.name || '无名氏'}
+            .col-md-7.col-sm-8.col-xs-8
+              h2.hidden-xs.hidden-sm #{card.name || '无名氏'}
+              h5 公司：#{card.company || '——'}
+              h5 职位：#{card.position || '——'}
+              h5 邮箱：#{card.email || '——'}
+              h4: a …
+
+            .col-md-2.col-sm-12.col-xs-12
+              .btn-group.pull-right
+                a.btn.btn-info.dropdown-toggle(data-toggle="dropdown")
+                  | 操作&nbsp;
+                  span.fa.fa-cog
+                  span.space
+                  span.fa.fa-caret-down
+                ul.dropdown-menu
+                  li: a(href="/card/"+card.id)
+                    span.fa.fa-pencil-square-o
+                    |  编辑
+                  li.disabled: a
+                    span.fa.fa-eye-slash
+                    |  隐藏
+
+
+
+
+
+
+
+
+
+        //- .col-md-5.toppad.pull-right.col-md-offset-3
+        //-   a(href="./card/"+card.id) 编辑
+        //-   br
+        //-   p.text-info= card.created
+        //- div(class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad")
+        //-   .panel.panel-info
+        //-     .panel-heading
+        //-       h3.page-title= card.name
+        //-     .panel-body
+        //-       .row
+        //-         .col-md-3.col-lg-3(algin="center")
+        //-           img.img-circle(src="//placehold.it/120")
+        //-         .col-md-9.col-lg-9
+        //-           table.table.table-user-information
+        //-             tbody
+        //-               tr
+        //-                 td 公司：
+        //-                 td= card.company
+        //-               tr
+        //-                 td 职位：
+        //-                 td= card.position
+        //-               tr
+        //-                 td 手机：
+        //-                 td= card.mobile
+        //-               tr
+        //-                 td 电话：
+        //-                 td= card.phone
+        //-               tr
+        //-                 td 手机：
+        //-                 td= card.mobile
+        //-               tr
+        //-                 td 邮箱：
+        //-                 td= card.email
+        //-               tr
+        //-                 td 网址：
+        //-                 td= card.site
+        //-               tr
+        //-                 td 地址：
+        //-                 td= card.address
+        //-               tr
+        //-                 td QQ：
+        //-                 td= card.site
+        //-               tr
+        //-                 td 微信：
+        //-                 td= card.weixin
+        //-               tr
+        //-                 td 微博：
+        //-                 td= card.weibo
+        //-               tr
+        //-                 td 个性签名：
+        //-                 td= card.write
+        //-           a.btn.btn-primary My Sales Performance
+        //-           a.btn.btn-primary My Sales Performance
+        //-     .panel-footer

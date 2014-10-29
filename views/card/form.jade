@@ -1,6 +1,13 @@
 extends ../layout
 
 append scripts
+  script.
+    $(document).ready(function() {
+      if (!$('#name').val()) {
+        $('#avatar_btn').addClass('disabled');
+        $('#menu_btn').addClass('disabled');
+      }
+    });
   script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
   script.
     $("#create_card_form").validate({
@@ -43,7 +50,11 @@ append scripts
 
 block content
   .container
-    include ../includes/message
+    .row
+      .col-md-offset-3.col-md-6.text-center
+        include ../includes/message
+  .container
+
     h2
       i.fa.fa-pencil-square-o
       |  编辑名片
@@ -51,8 +62,8 @@ block content
     .row
       .col-md-4
         .text-center
-          - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/120";
-          img.avatar.img-circle.center-block.img-responsive(src=avatar_src)
+          - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/140";
+          img.avatar.img-thumbnail.img-circle.center-block.img-responsive(src=avatar_src, style="width: 140px; height: 140px;")
           //- br
           //- a.btn.btn-link(href="/card/"+card.id+'/avatar')
             | 更改头像
@@ -60,16 +71,16 @@ block content
             span.fa.fa-external-link-square
           br
           .btn-group
-            a.btn.btn-default(href="/card/"+card.id+'/avatar')
+            a.btn.btn-default#avatar_btn(href="/card/"+card.id+'/avatar')
               span.fa.fa-fw.fa-smile-o
-              |  更改头像
-            a.btn.btn-default.dropdown-toggle(data-toggle="dropdown")
+              |  设置头像
+            a.btn.btn-default.dropdown-toggle#menu_btn(data-toggle="dropdown")
               span.fa.fa-caret-down
             ul.dropdown-menu
               li
                 a(href="./"+card.id+"/template")
-                  span.fa.fa-fw.fa-puzzle-piece
-                  |  更换主题
+                  span.fa.fa-fw.fa-magic
+                  |  选择主题风格
               li
                 a(href="/card/"+card.id+'/share')
                   span.fa.fa-fw.fa-qrcode
@@ -88,7 +99,7 @@ block content
 
           .form-group
             label.control-label.col-md-2(for="name")
-              //- spans.text-danger [必填]
+              spans.text-danger [必填]
               |  姓名：
             .col-md-7
               input.form-control(type="text", id="name", name="name", placeholder="", required, value=card.name)
@@ -160,7 +171,7 @@ block content
           .form-group
             label.control-label.col-md-2
             .col-md-7
-              button.btn.btn-success(type="submit") 保 存 &nbsp;
-                i.fa.fa-check
+              button.btn.btn-success(type="submit") 更 新 名 片&nbsp;
+                //- i.fa.fa-save
               span &nbsp;&nbsp;
               a.btn.btn-default(href="/") 取 消

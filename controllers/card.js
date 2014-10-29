@@ -1,27 +1,7 @@
 var _ = require("underscore");
-var moment = require('moment');
-moment.lang('zh-cn');
 
 var License = require('../models/license');
 var Card = require('../models/card');
-
-// exports.request = function (req, res) {
-//   //验证码 mock
-//   var code = req.body.code;
-//   var isValidCode;
-//   isValidCode = !!code;
-//   // 将制作吗存入session以备验证
-//   // console.log(typeof req.session.validcode);
-//   License.validate(code, function (error, valid) {
-//     if (error || !valid) {
-//       req.flash('error', '验证码不正确，请重新输入');
-//       res.redirect('back');
-//     } else {
-//       req.session.license = code;
-//       res.redirect('/card');
-//     }
-//   });
-// };
 
 // POST /card/validate
 exports.requestCreate =function (req, res, next) {
@@ -72,7 +52,8 @@ exports.edit = function (req, res, next) {
     if (error) { return next(error); }
     if (card) { // 编辑
       console.log(card);
-      res.render('card/form', {title: '编辑名片', card: card});
+      var success = req.flash('info');
+      res.render('card/form', {title: '编辑名片', card: card, success: success});
     } else { // 未找到或无权编辑名片
       // res.redirect('/404');
       next();
@@ -95,7 +76,8 @@ exports.update = function (req, res, next) {
       console.log(card);
       card.save(function(err, doc) {
         if (err) next(err);
-        res.redirect('/card/'+cardid+'/avatar');
+        req.flash('info', '名片已成功更新');
+        res.redirect('/card/'+cardid);
       });
       // res.render('card/form', {title: '编辑名片', card: card});
     } else { // 未找到卡片
@@ -105,51 +87,8 @@ exports.update = function (req, res, next) {
   });
 };
 
-// exports.create = function (req, res, next) {
-//   var owner = req.user.id;
-//   var data = req.body;
-//   data.owner = owner;
-//   // TODO: 检查是否系统用户，或者是否有权创建
-//   console.log(data);
-//   var license = req.session.license;
-//   License.validate(license, function (error, valid) {
-//     if (error || !valid) {
-//       req.flash('error', '制作码不正确或失效，请使用有效制作码');
-//       res.redirect('/card/validate');
-//     } else {
-//       Card.create(data, function (error, card) {
-//         if (error) { return next(error); }
-//         console.log('Card created');
-//         License.invalidate(license, function (error, success) {
-//           if (error || !success) {
-//             next(error || new Error('Unknown Error'));
-//           } else {
-//             delete req.session.license // 名片创建成功，注销制作码
-//             // TODO: hash mongodb id with hashids
-//             res.redirect('/card/' + card.id);
-//           }
-//         });
-//       });
-//     }
-//   });
-// };
-
 // GET /card/:id/template
 exports.chooseTemplate = function (req, res, next) {
-  /*
-  var uid = req.user.id;
-  var cardid = req.param('id');
-  // console.log(cardid, uid);
-  Card.findOne({_id: cardid, owner: uid}, function (error, card) {
-    if (error) { return next(error); }
-    if (card) {
-      // console.log(card);
-      res.render('card/template', {title: '选择模板', card: card});
-    } else { // 未找到或无权编辑名片
-      next();
-    }
-  });
-  */
   if(res.card) {
     res.render('card/template', {title: '选择模板', card: res.card});
   } else {
@@ -190,16 +129,6 @@ exports.share = function (req, res) {
   var cid = req.params.id;
   res.render('card/share', {title: '分享名片', cid: cid});
 };
-
-// exports.display = function (req, res, next) {
-//   var cardid = req.param('id');
-//   Card.findById(cardid, function (error, card) {
-//     if (error) { return next(error); }
-//     var vcard = JSON.stringify(card.toJSON());
-//     console.log(vcard);
-//     res.render('card/card', {vcard: vcard});
-//   });
-// };
 
 // 管理页面调用
 exports.list = function (req, res, next) {
@@ -250,11 +179,7 @@ exports.master = function (req, res, next) {
     if (err) return next(err);
     var numcard = docs.length;
     if (numcard) {
-      // docs[0].created = moment(docs[0].created).format("YYYY-M-D");
-      docs[0].created = moment(docs[0].created).format("YYYY-M-D");
-      console.log(docs[0]);
-      res.render('card/mine', {cards: docs});
-      /*
+      //*
       if (numcard == 1) {
         var cid = docs[0].id;
         console.log('Find vcard: ', cid);
@@ -263,7 +188,6 @@ exports.master = function (req, res, next) {
         // res.redirect('/card/validate');
         res.render('card/mine', {cards: docs});
       }
-      */
     } else { // 没有创建过名片
       res.redirect('/card/validate');
     }
