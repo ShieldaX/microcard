@@ -53,53 +53,64 @@ html
                 if card.site
                   dt.col.dim1half.text-right.padright 主页
                   dd.col.dim1half.text-left.padleft= card.site
-                if card.address
+                //- if card.address
                   dt.col.dim1half.text-right.padright 地址
                   dd.col.dim1half.text-left.padleft= card.address
 
-      #social.coffee-container.parallex
-        .icon-container
+      #social.cream-container.parallex
+        //- .icon-container
           div
-            span.fa.fa-comment.fa-lg
+            span.fa.fa-globe.fa-lg
         .container.wrap
           .row
             .col.dimfull.text-center
-              h2 网 络
+              h3
+                span.fa.fa-globe
+                |  网 络
               .more
-                a.btn.transparent
-                  span.fa.fa-qq.fa-2x
-                  span  #{card.qq}
-                a.btn.transparent
-                  span.fa.fa-weixin.fa-2x
-                  |  #{card.weixin}
-                a.btn.transparent
-                  span.fa.fa-weibo.fa-2x
-                  |  #{card.weibo}
+                if card.qq
+                  a.btn.transparent
+                    span.fa.fa-qq.fa-2x
+                    span  #{card.qq}
+                if card.weixin
+                  a.btn.transparent
+                    span.fa.fa-weixin.fa-2x
+                    |  #{card.weixin}
+                if card.weibo
+                  a.btn.transparent
+                    span.fa.fa-weibo.fa-2x
+                    |  #{card.weibo}
 
-      #about.cream-container.parallex
-        .icon-container
-          div
-            span.fa.fa-comment.fa-lg
-        .container.wrap
-          .row
-            .col.dimfull.text-center
-              h2 关 于
-              p.intro= card.bio
+              //- p.intro= card.bio
 
+      if card.bio
+        #about.cream-container.parallex
+          //- .icon-container
+            div
+              span.fa.fa-quote-left.fa-lg
+          .container.wrap
+            .row
+              .col.dimfull.text-center
+                h3
+                  span.fa.fa-quote-left
+                  |  关 于
+                p.intro= card.bio
 
-      #map.coffee-container.parallex
+      #map.cream-container
         - var marker = {lng: '121.46236', lat: '31.253631'};
         - var marker_img = marker.lng+','+marker.lat;
         - var marker_link = marker.lat+','+marker.lng;
         - var map_img_attrs = {'src': 'http://api.map.baidu.com/staticimage?&scale=2&center='+marker_img+'&markers='+marker_img+'&width=320&height=240&zoom=14&copyright=1&markerStyles=m,,red'};
         - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title=我的位置&content=地址&output=html', 'target': '_blank'};
-        .icon-container
+        //- .icon-container
           div
             span.fa.fa-map-marker.fa-lg
         .container.wrap
           .row
             .col.dimfull.text-center
-              h2 地 图
+              h3
+                span.fa.fa-map-marker
+                |  地 图
               p
                 a.btn&attributes(map_link_attrs)
                   | #{card.address}

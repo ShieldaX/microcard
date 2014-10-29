@@ -16,8 +16,7 @@ html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0")
-    - title = title ? title : '微名片'
-    title= title
+    title= card.name+' | 微名片'
     block styles
       link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')
       link(rel='stylesheet', href='/components/font-awesome/css/font-awesome.min.css')
@@ -76,7 +75,7 @@ html
                 i.fa.fa-fw.fa-globe
                 a(href=card.site): span= card.site.replace(httpReg, '')
 
-          +display(card.site)
+          +display(card.address)
             .contact.col-xs-12
               address
                 i.fa.fa-fw.fa-map-marker

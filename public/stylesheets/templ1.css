@@ -44,8 +44,8 @@ p.intro.big{font-size: 34px;line-height: 44px; padding-bottom: 30px;}
 dl, dl.row {margin-bottom: 5px !important; overflow: hidden;}
 dl dt {font-weight: 600;}
 dl dd {margin-bottom: 10px !important; color: black !important;}
-dd a {color: black !important;}
-#social a {color: #fff !important;}
+.cream-container.parallax a {color: black !important;}
+/*#social a {color: #fff !important;}*/
 
 . {padding: 10px; background: #fff; overflow: hidden;}
 
@@ -280,7 +280,7 @@ background-color: #ff6760;
 padding: 6px 20px;
 margin: 0;
 cursor: pointer;
-margin-bottom: 20px;
+/*margin-bottom: 20px;*/
 width: auto;
 border: none;
 -webkit-border-radius: 5px;
@@ -595,11 +595,16 @@ transition-timing-function: ease;
   .parallax {background-image: none !important;}
 
   .wrap > .row {
-    padding: 20px 10px 30px;
+    padding: 20px 10px 0px;
   }
 
   h1 {font-size: 2em;line-height: 1em;}
   h2 {font-size: 1.6em; line-height: 1em;}
+
+  #personalinfo h2 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 
   #home p {
     font-size: .9em;
@@ -611,6 +616,9 @@ transition-timing-function: ease;
 
   p.intro{font-size: 1.2em;font-weight: 300;line-height: 1.6em;padding-bottom: 20px;}
 
+  .more {
+    margin-top: 0;
+  }
 }
 
 /* Landscape phones and down */
