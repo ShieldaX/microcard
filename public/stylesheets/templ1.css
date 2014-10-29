@@ -20,7 +20,7 @@ p {padding-bottom: 15px}
 h1,h2,h3,h4,h5,h6 {
 font-weight: 900;
 word-spacing: 1px;
-margin-bottom: 30px;
+margin-bottom: 10px;
 color: #333;
 }
 h1 {font-size: 50px;line-height: 60px;}
@@ -41,9 +41,11 @@ p.intro.big{font-size: 34px;line-height: 44px; padding-bottom: 30px;}
 .post-content ol li li, .post-content ul li li {font-size: 90%; margin-left: 15px;}
 .post-content ol ol, .post-content ul ul {margin-bottom: 0;}
 
-dl, dl.row {margin-bottom: 15px !important; overflow: hidden;}
+dl, dl.row {margin-bottom: 5px !important; overflow: hidden;}
 dl dt {font-weight: 600;}
-dl dd {margin-bottom: 5px !important;}
+dl dd {margin-bottom: 10px !important; color: black !important;}
+dd a {color: black !important;}
+#social a {color: #fff !important;}
 
 . {padding: 10px; background: #fff; overflow: hidden;}
 
@@ -75,8 +77,8 @@ img {max-width: 100%; height: auto;}
 .img-circle {border-radius: 600px;}
 
 /* stuff */
-.icon-container {position: absolute; top: -35px; text-align: center; width: 100%;}
-.icon-container div {width: 60px; height: 60px; margin: 0 auto; display: inline-block; border-radius: 60px; line-height: 60px; padding: 5px; position: relative;}
+.icon-container {position: absolute; top: -25px; text-align: center; width: 100%;}
+.icon-container div {width: 40px; height: 40px; margin: 0 auto; display: inline-block; border-radius: 40px; line-height: 40px; padding: 5px; position: relative;}
 .icon-container div .glyphicons {
 font-size: 30px;
 height: 10px;
@@ -224,8 +226,8 @@ width: 20px;
 #ccimage {
 top: 40px;
 left: 53%;
-width: 150px;
-height: 150px;
+width: 120px;
+height: 120px;
 display: block;
 border: 5px solid #fff; overflow: hidden;
 }
@@ -271,7 +273,7 @@ opacity: .1;
 .btn-nav li > a, .btn {
 font-weight: 900;
 font-size: 12px;
-text-transform: uppercase;
+/*text-transform: uppercase;*/
 color: #FFF;
 display: inline-block;
 background-color: #ff6760;
@@ -552,6 +554,9 @@ transition-timing-function: ease;
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
+  body {
+    line-height: 18px;
+  }
   .position { width: auto;}
   .text-left, .text-right {text-align: center;}
   .padleft, .padright {padding: 0;}
@@ -577,7 +582,7 @@ transition-timing-function: ease;
 
   #animation {height: auto;}
   #animation * {position: relative; display: block; text-align: center; left: auto; right: auto; top: auto; width: auto; }
-  #ccimage { margin: 20px auto; width: 150px; margin-bottom: 20px; overflow: hidden;}
+  #ccimage { margin: 10px auto; width: 120px; margin-bottom: 10px; overflow: hidden;}
 
   form input, form textarea, form label {width: 100%;}
   form label {text-align: left; margin-bottom: 2px;}
@@ -586,12 +591,25 @@ transition-timing-function: ease;
   .more .btn {margin-bottom: 5px;}
 
   .date-detail {margin-top: 30px;}
-  dl dt {margin-bottom: 5px !important;}
+  /*dl dt {margin-bottom: 5px !important;}*/
   .parallax {background-image: none !important;}
 
   .wrap > .row {
-    padding: 30px 10px 60px;
+    padding: 20px 10px 30px;
   }
+
+  h1 {font-size: 2em;line-height: 1em;}
+  h2 {font-size: 1.6em; line-height: 1em;}
+
+  #home p {
+    font-size: .9em;
+  }
+
+  #home h1 {
+    margin-bottom: 4px;
+  }
+
+  p.intro{font-size: 1.2em;font-weight: 300;line-height: 1.6em;padding-bottom: 20px;}
 
 }
 

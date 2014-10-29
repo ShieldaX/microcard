@@ -4,8 +4,7 @@ html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0")
-    - title = title ? title : '微名片'
-    title= title
+    title= card.name+' | 微名片'
     block styles
       link(rel='stylesheet', href='/stylesheets/o-responsive.css')
       link(rel='stylesheet', href='/stylesheets/templ1.css')
@@ -15,7 +14,7 @@ html
   body.fullwidth.boxed
     block content
       #top
-      #header
+      //- #header
         .container.wrap.text-center
           span= card.name
           span= card.position
@@ -26,7 +25,7 @@ html
             .col.dimfull.text-center#animation
               #ccimage.img-circle
                 - var avatar = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "http://lorempixel.com/140/140/city";
-                img(src=avatar, style="width: 150px; height: 150px;")
+                img(src=avatar, style="width: 120px; height: 120px;")
               p#hello 你好, 我叫
               h1#ccname= card.name
               if card.position
@@ -36,7 +35,7 @@ html
       #personalinfo.cream-container.parallax
         .icon-container
           div
-            span.fa.fa-user.fa-2x
+            span.fa.fa-user.fa-lg
         .container.wrap
           .row
             .col.dimfull.text-center
@@ -61,12 +60,11 @@ html
       #social.coffee-container.parallex
         .icon-container
           div
-            span.fa.fa-comment.fa-2x
+            span.fa.fa-comment.fa-lg
         .container.wrap
           .row
             .col.dimfull.text-center
               h2 网 络
-              p.intro 还可以从通过以下方式联系我
               .more
                 a.btn.transparent
                   span.fa.fa-qq.fa-2x
@@ -81,12 +79,12 @@ html
       #about.cream-container.parallex
         .icon-container
           div
-            span.fa.fa-comment.fa-2x
+            span.fa.fa-comment.fa-lg
         .container.wrap
           .row
             .col.dimfull.text-center
               h2 关 于
-              p.intro.big= card.write
+              p.intro= card.bio
 
 
       #map.coffee-container.parallex
@@ -97,11 +95,11 @@ html
         - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title=我的位置&content=地址&output=html', 'target': '_blank'};
         .icon-container
           div
-            span.fa.fa-map-marker.fa-2x
+            span.fa.fa-map-marker.fa-lg
         .container.wrap
           .row
             .col.dimfull.text-center
-              h2 位 置
+              h2 地 图
               p
                 a.btn&attributes(map_link_attrs)
                   | #{card.address}
