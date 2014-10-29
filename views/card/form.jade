@@ -64,11 +64,6 @@ block content
         .text-center
           - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/140";
           img.avatar.img-thumbnail.img-circle.center-block.img-responsive(src=avatar_src, style="width: 140px; height: 140px;")
-          //- br
-          //- a.btn.btn-link(href="/card/"+card.id+'/avatar')
-            | 更改头像
-            span.space
-            span.fa.fa-external-link-square
           br
           .btn-group
             a.btn.btn-default#avatar_btn(href="/card/"+card.id+'/avatar')
@@ -102,7 +97,10 @@ block content
               spans.text-danger [必填]
               |  姓名：
             .col-md-7
-              input.form-control(type="text", id="name", name="name", placeholder="", required, value=card.name)
+              if card.name
+                input.form-control(type="text", id="name", name="name", placeholder="", required, value=card.name)
+              else
+                input.form-control(type="text", id="name", name="name", placeholder="", required, autofocus)
           .form-group
             label.control-label.col-md-2(for="company") 公司：
             .col-md-7

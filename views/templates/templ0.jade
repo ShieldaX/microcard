@@ -17,15 +17,14 @@ html
     <script src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
   body
     block content
       .header-deco
       .container
         .row
           .col-lg-12
-            - var avatar = card.avatar ? "/uploads/avatar/" + card.avatar : "http://lorempixel.com/140/140/city";
-            img.avatar.img-circle.img-responsive.img-thumbnail.center-block(alt="140x140", src=avatar)
+            - var avatar = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "http://lorempixel.com/140/140/city";
+            img.avatar.img-circle.img-responsive.img-thumbnail.center-block(src=avatar, style="width: 150px; height: 150px;")
             h2.text-center= card.name
             h4.text-center= card.position
 
@@ -36,7 +35,6 @@ html
             p.text-info
               h3= card.company
               //- br
-
               address: strong= card.address
                 //- i.glyphicon.glyphicon-map-marker
                 //- | #{card.address}
@@ -83,7 +81,7 @@ html
               i.fa.fa-quote-left.text-muted.fa-2x
               i.fa.fa-quote-right.text-muted
             p.text-center
-              | #{card.write}
+              | #{card.bio}
 
       .container
         .row

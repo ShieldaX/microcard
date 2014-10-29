@@ -22,6 +22,12 @@ html
       link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')
       link(rel='stylesheet', href='/components/font-awesome/css/font-awesome.min.css')
       link(rel='stylesheet', href='/stylesheets/templ2.css')
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
   body
     block content
@@ -30,19 +36,19 @@ html
       .container-fluid.head
         .row
           .head.col-lg-12
-            - var avatar = card.avatar ? "/uploads/avatar/" + card.avatar : "http://lorempixel.com/140/140/city";
-            img.avatar.img-circle.img-thumbnail.center-block(src=avatar)
+            - var avatar = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "http://lorempixel.com/140/140/city";
+            img.avatar.img-circle.img-thumbnail.center-block(src=avatar, style="width: 150px; height: 150px;")
           .name.col-xs-12
             h2.text-center
               strong= card.name
-            if card.position
-              h3.text-center
-                span.small= card.position
-
-        .company.row.bg-white
+                if card.position
+                  span.space
+                  span.small= card.position
           .com.col-xs-12
-            h4.text-center
+            h3.text-center
               span= card.company
+        //- .company.row
+
 
       .container-fluid
         .info.row.bg-white
@@ -59,8 +65,8 @@ html
                 span= card.phone
 
           +display(card.email)
-            .contact.col-xs-6
-              p
+            .contact.col-xs-12
+              p.text-nowrap
                 i.fa.fa-fw.fa-envelope
                 span= card.email
 
@@ -94,13 +100,13 @@ html
                 i.fa.fa-fw.fa-weibo
                 span= card.weibo
 
-      if card.write
+      if card.bio
         .container-fluid
           .words.row.bg-white
             .col-xs-12
               p.text-justify(style="line-height: 2em")
                 i.text-muted.fa.fa-quote-left
-                |  #{card.write}
+                |  #{card.bio}
 
       .container-fluid
         .row

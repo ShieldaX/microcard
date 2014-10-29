@@ -24,7 +24,7 @@ body {
 
 .container-fluid .row, .container .row, footer {
   background-color: rgba(255, 255, 255, 1);
-  padding-top: 20px;
+  padding-top: 30px;
 }
 
 footer > .container {
@@ -32,13 +32,13 @@ footer > .container {
 }
 
 .container-fluid.head {
-  margin-top: 200px;
+  margin-top: 160px;
 }
 
 img.avatar {
   width: 140px;
   height: 140px;
-  margin-top: -70px;
+  margin-top: -100px;
   border: none;
 }
 
@@ -50,6 +50,10 @@ img.avatar {
   border-bottom: 1px solid #dadde3; box-shadow: #fdfdfe 0 1px;
 }
 
+.space {
+  padding: 5px;
+}
+
 @media only screen and (min-width: 768px) {
   .container-fluid.head {
     margin-top: 300px;
@@ -57,5 +61,15 @@ img.avatar {
 
   .top_bg {
     padding-top: 400px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  p {
+    font-size: 1.1em;
+  }
+
+  a {
+    color: black;
   }
 }
