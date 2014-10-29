@@ -1,16 +1,20 @@
-extends layout
+extends ../layout
 
 block content
+  - var img_src = card.avatar.source || '';
+  - var img_area = card.avatar.area || [];
+
   .container
     .row
       .col-lg-12
-        include includes/message
+        include ../includes/message
         h2.text-center: i.fa.fa-smile-o
           |  设置头像
         hr
   .container
     .row
       .col-sm-6.col-xs-12.pull-left
+
         img.img-responsive.pull-right.img_placehoder#imgarea
         .clearfix
         br
@@ -34,7 +38,6 @@ block content
                   span.text-info 上传后，拖拽或调整大图中的虚线方格，下方的预览小图即为保存后的头像。
             .col-sm-12.col-xs-12
               form#save_avatar(method="post")
-                //- input(type="hidden", name="croods")
                 input#x(type="hidden", name="x")
                 input#y(type="hidden", name="y")
                 input#w(type="hidden", name="w")
@@ -79,7 +82,7 @@ append scripts
         $('#y').val(c.y);
         $('#w').val(c.w);
         $('#h').val(c.h);
-        console.log(c);
+        //- console.log(c);
 
         $('#preview_img').css({
           width: Math.round(rx * boundx) + 'px',
@@ -90,28 +93,32 @@ append scripts
       }
     }
 
-    function JcropSetup(img) {
-
+    function JcropSetup(avatar) {
+      var src = '/uploads/images/' + avatar.source;
       if (jcrop_api) jcrop_api.destroy(); //tear down firstly
       //- if (jcrop_api) jcrop_api.release(); //tear down firstly
-      $('#tempimage').val(img.path);
-      $('#imgarea').replaceWith('<img class="img-responsive pull-right" id="imgarea" src="'+img.path+'">');
+      $('#tempimage').val(src);
+      $('#imgarea').replaceWith('<img class="img-responsive pull-right" id="imgarea" src="'+src+'">');
       //- $('.img_placehoder').parent().toggleClass('hidden');
-      //- $('#uploaded_img').attr('src', img.path);
-      $('#preview_img').attr('src', img.path).attr('style', '');
+      //- $('#uploaded_img').attr('src', src);
+      $('#preview_img').attr('src', src).attr('style', '');
+      $('#save').removeClass('disabled');
+      var area = avatar.area;
+      var selection = [area[0], area[1], area[0]+area[2], area[1]+area[3]];
+      //- console.log(selection);
       var theImage = new Image();
-      theImage.src = img.path;
-
+      theImage.src = src;
       $(theImage).load(function() {
         var w = this.width;
         var h = this.height;
-        var dimension = Math.min(w, h)*.9;
-        var iniSelect = [
-          w*.5 - dimension*.5,
-          h*.5 - dimension*.5,
-          w*.5 + dimension*.5,
-          h*.5 + dimension*.5,
-        ];
+        //- var dimension = Math.min(w, h)*.9;
+        //- var iniSelect = [
+        //-   w*.5 - dimension*.5,
+        //-   h*.5 - dimension*.5,
+        //-   w*.5 + dimension*.5,
+        //-   h*.5 + dimension*.5,
+        //- ];
+        //- iniSelect = avatar.area;
         //- console.log(iniSelect);
         $('#imgarea').Jcrop({
           onSelect: updatePreview,
@@ -125,40 +132,9 @@ append scripts
           boundx = bounds[0];
           boundy = bounds[1];
           jcrop_api=this;
-          jcrop_api.setSelect(iniSelect);
+          jcrop_api.setSelect(selection);
         });
 
-      });
-    }
-
-    function confirm_publish() {
-      bootbox.dialog({
-        message: "头像已成功上传，现在发布名片？",
-        //- title: "Custom title",
-        buttons: {
-
-          theme: {
-            label: "选择主题",
-            className: "btn-success",
-            callback: function() {
-              window.location.href = './template';
-            }
-          },
-          publish: {
-            label: "现在发布",
-            className: "btn-warning",
-            callback: function() {
-              window.location.href = './share';
-            }
-          },
-          cancel: {
-            label: "取消",
-            className: "btn-default",
-            callback: function() {
-              //- Example.show("uh oh, look out!");
-            }
-          }
-        }
       });
     }
 
@@ -169,28 +145,24 @@ append scripts
       request_form.ajaxForm({
         //- url: '/upload',
         //- type: 'POST',
-        //- restForm: true,
-        //- clearForm: true,
         success: function(res, status, xhr, _form) {
-          var flash;
           if (!res.success) {
-            flash = res.data.message;
-            $('#info').text(flash);
+            console.log(res.data);
+            $('#info').text(res.data.message);
           } else {
-            JcropSetup(res.data);
-            button_save.removeClass('disabled')
+            console.log(res.data);
+            JcropSetup(res.data.avatar);
           }
           $('#spinner').removeClass('fa-spin').addClass('hidden');
           request_form.resetForm();
         },
         error: function (res, status, error) {
-          $('#spinner').removeClass('fa-spin').addClass('hidden');
+          //- $('#spinner').removeClass('fa-spin').addClass('hidden');
           request_form.resetForm();
         }
       });
 
       $('#upload').click(function() {
-      //- $('#request_form').submit(function() {
         if ($('#avatar').val() && request_form.valid()) {
           console.log('spinning...');
           $('#spinner').addClass('fa-spin').removeClass('hidden');
@@ -202,8 +174,8 @@ append scripts
         $('#spinner').addClass('fa-spin').removeClass('hidden');
       });
 
-      var jumpTo = window.location.href.replace('avatar', 'share');
-      console.log(jumpTo);
+      var jumpTo = window.location.href.replace('/avatar', '');
+      //- console.log(jumpTo);
       save_avatar.ajaxForm({
         success: function(res, status, xhr, _form) {
           if (!res.success) {
@@ -213,8 +185,7 @@ append scripts
             //- $('<span class="text-success">'+res.data.message+'</span>').insertAfter('#info');
             $('#info').text(res.data.message);
             button_save.addClass('disabled');
-            //- window.setInterval(function() { window.location.href = jumpTo; }, 1000);
-            window.setTimeout(confirm_publish, 1000);
+            window.setTimeout(function() { window.location.href = jumpTo; }, 1000);
           }
           $('#spinner').removeClass('fa-spin').addClass('hidden');
         },
@@ -223,6 +194,14 @@ append scripts
           $('#spinner').removeClass('fa-spin').addClass('hidden');
         }
       });
+
+      // 初始化
+      //- var current_src = "!{img_src}".trim();
+      var avatar = !{card.avatar};
+      //- console.log(area);
+      if (avatar.source) {
+        JcropSetup(avatar);
+      }
     });
 
   script.

@@ -1,4 +1,6 @@
 var _ = require("underscore");
+var moment = require('moment');
+moment.lang('zh-cn');
 
 var License = require('../models/license');
 var Card = require('../models/card');
@@ -37,17 +39,21 @@ exports.requestCreate =function (req, res, next) {
       res.redirect('/card/validate');
     } else if (valid) {
       // 制作码有效，开始制作
-      data.license = license;
-      console.log(data);
+      data.created = {
+        at: Date.now(),
+        license: license
+      };
+      // console.log(data);
       Card.create(data, function (error, card) {
         if (error) { return next(error); }
-        console.log('Card created');
+        console.log('Card created: ');
+        console.log(card);
+        // card.save();
         // 名片创建成功，注销制作码
         License.invalidate(license, function (error, success) {
           if (error || !success) {
             next(error || new Error('Unknown Error'));
           } else {
-            // TODO: hash mongodb id with hashids
             // req.flash('info', '开始制作属于你的个性名片吧！');
             res.redirect('/card/' + card.id);
           }
@@ -244,14 +250,20 @@ exports.master = function (req, res, next) {
     if (err) return next(err);
     var numcard = docs.length;
     if (numcard) {
+      // docs[0].created = moment(docs[0].created).format("YYYY-M-D");
+      docs[0].created = moment(docs[0].created).format("YYYY-M-D");
+      console.log(docs[0]);
+      res.render('card/mine', {cards: docs});
+      /*
       if (numcard == 1) {
         var cid = docs[0].id;
         console.log('Find vcard: ', cid);
         res.redirect('/card/'+cid);
       } else {
-        res.redirect('/card/validate');
-        res.render('card/mine');
+        // res.redirect('/card/validate');
+        res.render('card/mine', {cards: docs});
       }
+      */
     } else { // 没有创建过名片
       res.redirect('/card/validate');
     }

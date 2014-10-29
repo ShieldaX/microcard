@@ -19,7 +19,7 @@ append scripts
           url: true
         },
         qq: { minlength: 4, maxlength: 11 },
-        write: {
+        bio: {
           maxlength: 140
         }
       },
@@ -35,7 +35,7 @@ append scripts
           url: "网址格式不正确, 请以 http:// 开头"
         },
         qq: "QQ号码格式不正确",
-        write: {
+        bio: {
           maxlength: "已超过140字限制"
         }
       }
@@ -44,73 +44,123 @@ append scripts
 block content
   .container
     include ../includes/message
-    h2.text-center: i.fa.fa-pencil-square-o
-      |  填写名片内容
+    h2
+      i.fa.fa-pencil-square-o
+      |  编辑名片
     hr
-    form.form-horizontal#create_card_form(method="post", role="form")
-      fieldset
-        //- h6.text-muted(title="您的个人信息不会透漏给任何不被信任的第三方，请放心填写。") 基本信息 &nbsp;
-        h6.text-muted 基本信息 &nbsp;
-          span.fa.fa-shield.text-success
-        .form-group
-          label.control-label.col-sm-4(for="name") 姓名
-            i.text-danger *
-          .col-sm-5
-            input.form-control(type="text", id="name", name="name", placeholder="", required, value=card.name)
-        .form-group
-          label.control-label.col-sm-4(for="company") 公司
-          .col-sm-5
-            input.form-control(type="text", id="company", name="company", placeholder="公司或组织的全称", value=card.company)
-        .form-group
-          label.control-label.col-sm-4(for="position") 职位
-          .col-sm-5
-            input.form-control(type="text", id="position", name="position", placeholder="职位或职务", value=card.position)
-      fieldset
-        h6.text-muted 联系方式
-        .form-group
-          label.control-label.col-sm-4(for="mobile") 手机
-          .col-sm-5
-            input.form-control(type="text", id="mobile", name="mobile", placeholder="+00 123 4567 8910", value=card.mobile)
-        .form-group
-          label.control-label.col-sm-4(for="phone") 座机
-          .col-sm-5
-            input.form-control(type="text", id="phone", name="phone", placeholder="0000 123 45678", value=card.phone)
-        .form-group
-          label.control-label.col-sm-4(for="email") 电子邮箱
-          .col-sm-5
-            input.form-control(type="email", id="email", name="email", placeholder="name@example.com", value=card.email)
-        .form-group
-          label.control-label.col-sm-4(for="site") 网站
-          .col-sm-5
-            input.form-control(type="url", id="site", name="site", placeholder="blog.yourhost.com 网站或博客", value=card.site)
-        .form-group
-          label.control-label.col-sm-4(for="address") 地址
-          .col-sm-5
-            input.form-control(type="text", id="address", name="address", placeholder="省市 县区 街道 楼座", value=card.address)
-      fieldset
-        h6.text-muted 社交账号
-        .form-group
-          label.control-label.col-sm-4(for="qq") QQ
-          .col-sm-5
-            input.form-control(type="text", id="qq", name="qq", placeholder="12345678", value=card.qq)
-        .form-group
-          label.control-label.col-sm-4(for="weixin") 微信
-          .col-sm-5
-            input.form-control(type="text", id="weixin", name="weixin", placeholder="weixin", value=card.weixin)
-        .form-group
-          label.control-label.col-sm-4(for="weibo") 新浪微博
-          .col-sm-5
-            input.form-control(type="text", id="weibo", name="weibo", placeholder="@sinaweibo", value=card.weibo)
-      fieldset
-        h6.text-muted 个性化
-        .form-group
-          label.control-label.col-sm-4(for="write") 签名
-          .col-sm-5
-            textarea.form-control(type="text", id="write", name="write", placeholder="写一段简介或个性签名，利用文字来更好的展示自己", rows="4")= card.write
-      hr
-      .form-group
-        .col-sm-offset-4.col-sm-8
-          button.btn.btn-success.btn-lg(type="submit") 保 存
-            //- i.fa.fa-check
-          |  &nbsp;&nbsp;&nbsp;
-          a.btn.btn-link(href="/") 返回首页
+    .row
+      .col-md-4
+        .text-center
+          - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/120";
+          img.avatar.img-circle.center-block.img-responsive(src=avatar_src)
+          //- br
+          //- a.btn.btn-link(href="/card/"+card.id+'/avatar')
+            | 更改头像
+            span.space
+            span.fa.fa-external-link-square
+          br
+          .btn-group
+            a.btn.btn-default(href="/card/"+card.id+'/avatar')
+              span.fa.fa-fw.fa-smile-o
+              |  更改头像
+            a.btn.btn-default.dropdown-toggle(data-toggle="dropdown")
+              span.fa.fa-caret-down
+            ul.dropdown-menu
+              li
+                a(href="./"+card.id+"/template")
+                  span.fa.fa-fw.fa-puzzle-piece
+                  |  更换主题
+              li
+                a(href="/card/"+card.id+'/share')
+                  span.fa.fa-fw.fa-qrcode
+                  |  查看二维码
+              li
+                a(href="/card/"+card.id+'/share')
+                  span.fa.fa-fw.fa-share
+                  |  分享
+
+          hr.hidden-md.hidden-lg
+      .col-md-8
+        //- h4.text-muted.hidden-lg.hidden-md 文字内容：
+        form.form-horizontal#create_card_form(method="post", role="form")
+          //- fieldset
+            //- h6.text-muted(title="您的个人信息不会透漏给任何不被信任的第三方，请放心填写。") 基本信息 &nbsp;
+
+          .form-group
+            label.control-label.col-md-2(for="name")
+              //- spans.text-danger [必填]
+              |  姓名：
+            .col-md-7
+              input.form-control(type="text", id="name", name="name", placeholder="", required, value=card.name)
+          .form-group
+            label.control-label.col-md-2(for="company") 公司：
+            .col-md-7
+              input.form-control(type="text", id="company", name="company", placeholder="公司或组织的全称", value=card.company)
+          .form-group
+            label.control-label.col-md-2(for="position") 职位：
+            .col-md-7
+              input.form-control(type="text", id="position", name="position", placeholder="职位或职务", value=card.position)
+          //- fieldset
+            h6.text-muted 联系方式
+          hr
+          .form-group
+            label.control-label.col-md-2(for="mobile") 手机：
+            .col-md-7
+              input.form-control(type="text", id="mobile", name="mobile", placeholder="+00 123 4567 8910", value=card.mobile)
+          .form-group
+            label.control-label.col-md-2(for="phone") 座机：
+            .col-md-7
+              input.form-control(type="text", id="phone", name="phone", placeholder="0000 123 45678", value=card.phone)
+          .form-group
+            label.control-label.col-md-2(for="email") 电子邮箱：
+            .col-md-7
+              input.form-control(type="email", id="email", name="email", placeholder="name@example.com", value=card.email)
+          .form-group
+            label.control-label.col-md-2(for="site") 网址：
+            .col-md-7
+              input.form-control(type="url", id="site", name="site", placeholder="blog.yourhost.com 网站或博客", value=card.site)
+          .form-group
+            label.control-label.col-md-2(for="address") 地址：
+            .col-md-7
+              input.form-control(type="text", id="address", name="address", placeholder="省市 县区 街道 楼座", value=card.address)
+          //- fieldset
+            h6.text-muted 社交账号
+          hr
+          .form-group
+            label.control-label.col-md-2(for="qq") QQ：
+            .col-md-7
+              input.form-control(type="text", id="qq", name="qq", placeholder="12345678", value=card.qq)
+          .form-group
+            label.control-label.col-md-2(for="weixin") 微信：
+            .col-md-7
+              input.form-control(type="text", id="weixin", name="weixin", placeholder="weixin", value=card.weixin)
+          .form-group
+            label.control-label.col-md-2(for="weibo") 新浪微博：
+            .col-md-7
+              input.form-control(type="text", id="weibo", name="weibo", placeholder="@sinaweibo", value=card.weibo)
+          //- fieldset
+            h6.text-muted 个性化
+          hr
+          .form-group
+            label.control-label.col-md-2(for="bio") 个性签名：
+            .col-md-7
+              textarea.form-control(type="text", id="bio", name="bio", placeholder="写一段简介或个性签名，利用文字来更好的展示自己", rows="4")= card.bio
+          //- .form-group
+            label.control-label.col-md-2(for="weibo") 名片风格：
+            .col-md-5
+              .ui-select
+                select.form-control(name="tempalte")
+                  option(value="templ0") 简洁封面
+                  option(value="templ1") 休闲时光
+                  option(value="templ2" selected) 美丽风景
+            .col-md-2
+              a.btn.btn-primary.btn-block(href="./"+card.id+"/template") 浏览主题
+
+          //- hr
+          .form-group
+            label.control-label.col-md-2
+            .col-md-7
+              button.btn.btn-success(type="submit") 保 存 &nbsp;
+                i.fa.fa-check
+              span &nbsp;&nbsp;
+              a.btn.btn-default(href="/") 取 消

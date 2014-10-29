@@ -11,13 +11,14 @@ block content
 
         h2
           i.fa.fa-puzzle-piece
-          |  选择主题 &nbsp;
+          |  选择主题风格 &nbsp;
           i.fa.fa-spinner.text-success#spinner.hidden
-          a#publish.btn.btn-success.btn-lg.pull-right 发布名片
+          a.btn.btn-danger(href="/card/"+card.id) 完成
+          //- a#publish.btn.btn-danger.btn-lg.pull-right 取消
       .col-lg-12
         p
-          | 请从下方选择任意一个主题，或者点击“发布名片”完成制作&nbsp;
-          i.fa.fa-arrow-circle-right
+          | 请从下方选择喜欢的主题风格，点击“完成”返回编辑页面&nbsp;
+          //- i.fa.fa-arrow-circle-right
           span#info.text-danger
         hr
   .container
@@ -25,27 +26,31 @@ block content
       input#current(type="hidden", name="template", value=card.template)
       .row
         .col-lg-3.template_wrapper(data-tpl="templ0")
+          .caption.text-center
+            h4 信封
+              small (默认)
           .thumbnail.template_preview
             img.img-square.img-responsive(src="/images/templates/templ0.png")
           .caption.text-center
-            h4 英伦信封
-              small (默认)
             p: button(type="submit").btn.btn-warning.chooser 更换
         .col-lg-3.template_wrapper(data-tpl="templ1")
+          .caption.text-center
+            h4 休闲时光
           .thumbnail.template_preview
             img.img-square.img-responsive(src="/images/templates/templ1.png")
           .caption.text-center
-            h4 休闲时光
+            //- h4 休闲时光
             p: button(type="submit").btn.btn-warning.chooser 更换
         .col-lg-3.template_wrapper(data-tpl="templ2")
+          .caption.text-center
+            h4 美丽风景
           .thumbnail.template_preview
             img.img-square.img-responsive(src="/images/templates/templ2.png")
           .caption.text-center
-            h4 美丽风景
             p: button(type="submit").btn.btn-warning.chooser 更换
         .col-lg-3
           .caption.text-center(style="padding-top: 200px;")
-            h4.text-muted 更多主题，免费更新...
+            h4.text-muted 更多主题，敬请期待...
 
 append scripts
   script(type="text/javascript", src="http://libs.useso.com/js/jquery.form/3.50/jquery.form.min.js")

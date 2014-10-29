@@ -45,27 +45,29 @@ var CardSchema = new Schema({
   // 微博
   weibo: String,
   // 签名
-  write: {
+  bio: {
     type: String
   },
   // 头像
   avatar: {
-    type: String
+    // 图片名称含扩展名
+    source: String,
+    // 裁切区域
+    area: [Number]
   },
   // 模板
   template: {
     type: String
   },
-  // 创建时使用的制作码
-  license: {
-    type: String,
-    select: false
-  },
-  // 创建时间
+  // 创建记录
   created: {
-    type: Date,
-    default: Date.now,
-    select: false
+    // 时间
+    at: {
+      type: Date,
+      default: Date.now
+    },
+    // 创建时使用的制作码
+    license: String
   }
 });
 

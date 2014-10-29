@@ -16,13 +16,13 @@ module.exports = function (app) {
     res.render('index', { title: '微名片' });
   });
 
-  app.get('/404', function (req, res) {
-    console.log('404 handler..')
-    res.render('404', {
-      status: 404,
-      title: '页面不存在',
-    });
-  });
+  // app.get('/404', function (req, res) {
+  //   console.log('404 handler..')
+  //   res.render('404', {
+  //     status: 404,
+  //     title: '页面不存在',
+  //   });
+  // });
 
   // app.get('/upload', function (req, res) {
   //   res.render('upload', {title: '上传图片'});
@@ -71,7 +71,7 @@ module.exports = function (app) {
 
     // app.get('/:id', card.display);
 
-    app.get('/:id/avatar', upload.avatarForm);
+    app.get('/:id/avatar', auth.loadUserCardById, upload.avatarForm);
 
     app.post('/:id/avatar', upload.handleAvatar);
 
@@ -103,7 +103,8 @@ module.exports = function (app) {
   });
 
   app.get('*', function(req, res) {
-    console.log('404 handler..')
+    console.log(req.path);
+    console.log('404 handler..');
     res.render('404', {
       status: 404,
       title: '页面不存在',
