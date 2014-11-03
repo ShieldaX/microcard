@@ -4,6 +4,7 @@ var admin = require('./controllers/admin');
 var card = require('./controllers/card');
 var license = require('./controllers/license');
 var upload = require('./controllers/upload');
+var location = require('./controllers/location');
 
 // 加载中间件
 var auth = require('./middlewares/auth');
@@ -74,6 +75,10 @@ module.exports = function (app) {
     app.get('/:id/avatar', auth.loadUserCardById, upload.avatarForm);
 
     app.post('/:id/avatar', upload.handleAvatar);
+
+    app.get('/:id/location', auth.loadUserCardById, location.marker);
+
+    app.post('/:id/location', location.setMarker);
 
     app.get('/:id/template', auth.loadUserCardById, card.chooseTemplate);
 

@@ -1,5 +1,12 @@
 body {
   background-color: rgba(236, 240, 241,1.0);
+  /*font-family:Tahoma,Arial,Roboto,”Droid Sans”,”Helvetica Neue”,”Droid Sans Fallback”,”Heiti SC”,sans-self;*/
+  /*font-family: Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', '微软雅黑', Arial, sans-serif;*/
+  color: #2c3e50;
+}
+
+h1, h2, h3 {
+  /*font-family: Helvetica, STKaiti, Kaiti, 'Microsoft Yahei', 'Hiragino Sans GB', '微软雅黑', Arial, sans-serif;*/
 }
 
 .blur {
@@ -12,10 +19,11 @@ body {
 }
 
 .top_bg {
+  /*background-color: rgba(22, 160, 133,1.0);*/
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
-  padding-top: 200px;
+  padding-top: 300px;
   float: left;
   position: fixed;
   top: 0;
@@ -32,13 +40,13 @@ footer > .container {
 }
 
 .container-fluid.head {
-  margin-top: 160px;
+  margin-top: 180px;
 }
 
 img.avatar {
   width: 140px;
   height: 140px;
-  margin-top: -100px;
+  margin-top: -170px;
   border: none;
 }
 
@@ -52,6 +60,11 @@ img.avatar {
 
 .space {
   padding: 5px;
+}
+
+address span {
+  font-size: 1.2em;
+  font-weight: 800;
 }
 
 @media only screen and (min-width: 768px) {
@@ -72,4 +85,20 @@ img.avatar {
   a {
     color: black;
   }
+
+  .name {
+    /*position: relative;*/
+    /*top: 24px;*/
+    margin-top: 24px;
+  }
+
+  .container-fluid .row, .container .row, footer {
+    padding-top: 20px;
+  }
+
+  .head .row {
+    /*border-top: 2px solid #16a085;*/
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 100px rgba(44, 62, 80, .5);
+  }
+
 }

@@ -43,11 +43,11 @@ p.intro.big{font-size: 34px;line-height: 44px; padding-bottom: 30px;}
 
 dl, dl.row {margin-bottom: 5px !important; overflow: hidden;}
 dl dt {font-weight: 600;}
-dl dd {margin-bottom: 10px !important; color: black !important;}
-.cream-container.parallax a {color: black !important;}
-/*#social a {color: #fff !important;}*/
+dl dd {margin-bottom: 10px !important; color: #333 !important;}
+.cream-container.parallax a {color: #333 !important;}
+#social a {color: #333 !important;}
 
-. {padding: 10px; background: #fff; overflow: hidden;}
+/*. {padding: 10px; background: #fff; overflow: hidden;}*/
 
 .primarycolor {color: #ff6760 !important;}
 
@@ -421,7 +421,7 @@ margin-bottom: 45px;
 
 
 /* copyright */
-#copyright {background: #000 !important; color: #fff !important;}
+#copyright {background: #000 !important; color: #fff !important; margin-top: 20px;}
 #copyright .wrap > .row {padding: 0 30px !important; }
 #copyright p {padding-bottom: 0;}
 

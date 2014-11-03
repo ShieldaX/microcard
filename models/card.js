@@ -36,6 +36,8 @@ var CardSchema = new Schema({
   fax: String,
   // 通讯地址
   address: String,
+  // 地图坐标
+  location: [Number],
   // 网站地址
   site: String,
   // QQ号码
@@ -71,6 +73,9 @@ var CardSchema = new Schema({
   }
 });
 
+// CardSchema.path('created.at').select(false);
+CardSchema.path('created.license').select(false);
+
 /**
  * Virtuals
  */
@@ -78,7 +83,11 @@ var CardSchema = new Schema({
 // CardSchema.virtual('hashid').get(function () {
 //   return this._id;
 // });
-
+/*
+CardSchema.virtual('bmap').get(function () {
+  return this.location.join(',')
+});
+*/
 /**
  * Validators
  */

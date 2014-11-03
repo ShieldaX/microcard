@@ -18,9 +18,9 @@ block content
             .col-md-3.col-sm-12
               - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/140";
               img.img-circle.center-block.img-responsive(src=avatar_src)
-              h2.text-center.hidden-lg.hidden-md #{card.name || '无名氏'}
+              h2.text-center.hidden-lg.hidden-md #{card.name || '未填写'}
             .col-md-7.col-sm-8.col-xs-8
-              h2.hidden-xs.hidden-sm #{card.name || '无名氏'}
+              h2.hidden-xs.hidden-sm #{card.name || '未填写'}
               h5 公司：#{card.company || '——'}
               h5 职位：#{card.position || '——'}
               h5 邮箱：#{card.email || '——'}

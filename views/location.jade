@@ -1,0 +1,133 @@
+//- 添加、显示marker的视图
+
+extends layout
+
+block content
+  .container
+    .row
+      .col-lg-12
+        include includes/message
+        h2
+          |  标注位置 &nbsp;
+          i.fa.fa-spinner.text-success#spinner.hidden
+          button.btn.btn-primary#confirm
+            |  确 认
+          span.space
+          a.btn.btn-default#cancel(href="/card/"+card.id)
+            |  取 消
+      .col-lg-12
+        p
+          | 在地图上拖拽&nbsp;
+          i.glyphicon.glyphicon-map-marker.text-danger
+          |  图标获取精确地理位置，点击“确认”提交地图&nbsp;
+          //- span#info.text-success
+        hr
+  - var initMarker = card.location.length ? card.location.join(',') : '116.400244,39.92556';
+  .container
+    .row
+      .col-md-8
+        #map_wrapper.img-rounded(style="width: 100%; height: 500px")
+      .col-md-4
+        .form
+          .form-group
+            label.control-label(for="address") 地址：
+            .input-group
+              input.form-control(type="text", id="address", placeholder="填写详细地址进行定位", value=card.address)
+              span.input-group-btn
+                button.btn.btn-default#geoc_btn
+                  i.glyphicon.glyphicon-screenshot.text-danger
+                  |  定位
+            p.help-block 如对地图搜索结果不满意，可以尝试增减地址的详细程度重新定位
+          .form-group
+            label.control-label(for="address") 当前位置：
+            p.form-control-static#info.text-primary= initMarker
+  form#location_form.form-horizontal(method="POST")
+    input#location(type="hidden", name="location")
+    input#re_address(type="hidden", name="address")
+    input#save.hidden(type="submit")
+
+append scripts
+  script(type="text/javascript", src="http://libs.useso.com/js/jquery.form/3.50/jquery.form.min.js")
+  //- 百度地图
+  script(type="text/javascript", src="http://api.map.baidu.com/api?v=2.0&ak=1ITMfgYnVIQBaGsv7sMyoeSr")
+  script.
+    function updatePosition(point) {
+      $('#info').text(point.lng + "," + point.lat);
+      $('#location').val(point.lng + "," + point.lat);
+      $('#re_address').val($('#address').val());
+    }
+
+    $(function (){
+      // 百度地图API功能
+      var map = new BMap.Map("map_wrapper");
+      // 左上角，仅包含平移和缩放按钮。
+      map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_SMALL}));
+      map.addControl(new BMap.ScaleControl()); //添加比例尺控件
+      // 初始化标注点
+      console.log(!{initMarker});
+      var point = new BMap.Point(!{initMarker});
+      map.centerAndZoom(point, 12);
+      var marker = new BMap.Marker(point);// 创建标注
+      map.addOverlay(marker);             // 将标注添加到地图中
+      marker.enableDragging();    //可拖拽
+      //- map.enableScrollWheelZoom();//可以鼠标滚动 缩放比例尺
+
+      //- 功能
+      marker.addEventListener("dragend",function(e){
+        var p = marker.getPosition();//获取marker的位置
+        //- alert("marker的位置是" + p.lng + "," + p.lat);
+        updatePosition(p);
+      });
+
+      // 创建地址解析器
+      var myGeo = new BMap.Geocoder();
+      // 将地址解析结果显示在地图上,并调整地图视野
+      myGeo.getPoint("#{card.address}", function(point){
+        if (point) {
+          marker.setPosition(point);
+          map.centerAndZoom(point, 16);
+          updatePosition(point);
+        }
+      }, "");
+
+      $('#geoc_btn').click(function (event) {
+        //- event.preventDefault();
+        var btn = this;
+        myGeo.getPoint($('#address').val(), function(point){
+          if (point) {
+            marker.setPosition(point);
+            map.centerAndZoom(point, 16);
+            updatePosition(point);
+          }
+          btn.blur();
+        }, "");
+      });
+
+    });
+
+  script.
+    var jumpTo = window.location.href.replace('/location', '');
+    $(function () {
+      //- var button_save = $('.chooser');
+      var form = $('#location_form'); // cache form jq handler
+      form.ajaxForm({
+        success: function(res, status, xhr, _form) {
+          if (!res.success) {
+            $('#info').text(res.data.message);
+          } else {
+            //- 数据提交成功，跳转
+            window.setTimeout(function() { window.location.href = jumpTo; }, 800);
+          }
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+        },
+        error: function (res, status, error) {
+          $('#spinner').removeClass('fa-spin').addClass('hidden');
+        }
+      });
+
+      $('#confirm').click(function (event) {
+        event.preventDefault();
+        $('#save').click();
+      });
+
+    });

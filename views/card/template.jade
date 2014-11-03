@@ -34,7 +34,7 @@ block content
           .thumbnail.template_preview
             img.img-square.img-responsive(src="/images/templates/templ0.png")
           .caption.text-center
-            p: button(type="submit").btn.btn-warning.chooser 更换
+            p: button(type="submit").btn.btn-warning.chooser 启用
         .col-lg-3.template_wrapper(data-tpl="templ1")
           .caption.text-center
             h4 休闲时光
@@ -42,21 +42,21 @@ block content
             img.img-square.img-responsive(src="/images/templates/templ1.png")
           .caption.text-center
             //- h4 休闲时光
-            p: button(type="submit").btn.btn-warning.chooser 更换
+            p: button(type="submit").btn.btn-warning.chooser 启用
         .col-lg-3.template_wrapper(data-tpl="templ2")
           .caption.text-center
             h4 美丽风景
           .thumbnail.template_preview
             img.img-square.img-responsive(src="/images/templates/templ2.png")
           .caption.text-center
-            p: button(type="submit").btn.btn-warning.chooser 更换
+            p: button(type="submit").btn.btn-warning.chooser 启用
         .col-lg-3
           .caption.text-center(style="padding-top: 200px;")
             h4.text-muted 更多主题，敬请期待...
 
 append scripts
   script(type="text/javascript", src="http://libs.useso.com/js/jquery.form/3.50/jquery.form.min.js")
-  script(type="text/javascript", src="/components/bootbox/bootbox.js")
+  //- script(type="text/javascript", src="/components/bootbox/bootbox.js")
   script.
 
     function chooseTemplate (templ) {
@@ -66,9 +66,9 @@ append scripts
       //- console.log($('div[data-tpl="'+templ+'"]').find('.template_preview').length);
       var wrapper = $('div[data-tpl="'+templ+'"]');
       $('div[data-tpl="'+templ+'"]').find('.template_preview').addClass('active');
-      wrapper.find('button').removeClass('btn-warning').addClass('btn-link').text('已选择').blur();
+      wrapper.find('button').removeClass('btn-warning').addClass('btn-link').text('使用中').blur();
       var other_warppers = $('div[data-tpl!="'+templ+'"]').filter('.template_wrapper');
-      other_warppers.find('button').addClass('btn-warning').removeClass('btn-link').text('更换');
+      other_warppers.find('button').addClass('btn-warning').removeClass('btn-link').text('启用');
       //- console.log(other_warppers);
     }
     /*

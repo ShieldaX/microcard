@@ -4,6 +4,7 @@ html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0")
+    meta(http-equiv="format-detection", content="telephone=no")
     title= card.name+' | 微名片'
     block styles
       link(rel='stylesheet', href='/stylesheets/o-responsive.css')
@@ -53,9 +54,10 @@ html
                 if card.site
                   dt.col.dim1half.text-right.padright 主页
                   dd.col.dim1half.text-left.padleft= card.site
-                //- if card.address
+                if card.address
                   dt.col.dim1half.text-right.padright 地址
-                  dd.col.dim1half.text-left.padleft= card.address
+                  dd.col.dim1half.text-left.padleft
+                    strong= card.address
 
       #social.cream-container.parallex
         //- .icon-container
@@ -95,28 +97,28 @@ html
                   span.fa.fa-quote-left
                   |  关 于
                 p.intro= card.bio
-
-      #map.cream-container
-        - var marker = {lng: '121.46236', lat: '31.253631'};
-        - var marker_img = marker.lng+','+marker.lat;
-        - var marker_link = marker.lat+','+marker.lng;
-        - var map_img_attrs = {'src': 'http://api.map.baidu.com/staticimage?&scale=2&center='+marker_img+'&markers='+marker_img+'&width=320&height=240&zoom=14&copyright=1&markerStyles=m,,red'};
-        - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title=我的位置&content=地址&output=html', 'target': '_blank'};
-        //- .icon-container
-          div
-            span.fa.fa-map-marker.fa-lg
-        .container.wrap
-          .row
-            .col.dimfull.text-center
-              h3
-                span.fa.fa-map-marker
-                |  地 图
-              p
-                a.btn&attributes(map_link_attrs)
-                  | #{card.address}
-              #map
-                a&attributes(map_link_attrs)
-                  img.img-responsive.img-rounded.center-block.map-img&attributes(map_img_attrs)
+      if card.address
+        #map.cream-container
+          - var marker = {lng: '121.46236', lat: '31.253631'};
+          - var marker_img = marker.lng+','+marker.lat;
+          - var marker_link = marker.lat+','+marker.lng;
+          - var map_img_attrs = {'src': 'http://api.map.baidu.com/staticimage?&scale=2&center='+marker_img+'&markers='+marker_img+'&width=320&height=240&zoom=14&copyright=1&markerStyles=m,,red'};
+          - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title=我的位置&content=地址&output=html', 'target': '_blank'};
+          //- .icon-container
+            div
+              span.fa.fa-map-marker.fa-lg
+          .container.wrap
+            .row
+              .col.dimfull.text-center
+                h3
+                  span.fa.fa-map-marker
+                  |  地 图
+                p
+                  a.btn&attributes(map_link_attrs)
+                    | #{card.address}
+                #map
+                  a&attributes(map_link_attrs)
+                    img.img-responsive.img-rounded.center-block.map-img&attributes(map_img_attrs)
 
       #copyright
         .container.wrap

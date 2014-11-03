@@ -2,7 +2,8 @@
 // 负责处理静态资源（图片等）的管理
 
 var fs = require('fs');
-var crypto = require('crypto');
+var mkdirp = require('mkdirp');
+// var crypto = require('crypto');
 var sharp = require('sharp');
 var Card = require('../models/card');
 
@@ -55,6 +56,31 @@ function uploadAjax(req, res) {
       });
     } else {
       // 上传图片合法
+
+      // 检查路径
+      if (fs.existsSync('public/uploads')) {
+        if (!fs.existsSync('public/uploads/images')) {
+          mkdirp('public/uploads/images', function (err) { if (err) console.error(err); });
+        }
+        if (!fs.existsSync('public/uploads/avatar')) {
+          mkdirp('public/uploads/avatar', function (err) { if (err) console.error(err); });
+        }
+      } else {
+        mkdirp('public/uploads/images', function (err) {
+          if (err) {
+            console.error(err);
+          } else {
+            mkdirp('public/uploads/avatar', function (err) {
+              if (err) {
+                console.error(err);
+              } else {
+                console.log('Essential DIRs Has Been Rebuild!');
+              }
+            });
+          }
+        });
+      }
+
       var card = req.card;
       // 异步删除原来的图片 if any
       var source = card.avatar.source;
