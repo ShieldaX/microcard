@@ -85,7 +85,7 @@ html
               i.fa.fa-quote-right.text-muted
             p.text-center
               | #{card.bio}
-      if card.address
+      if (card.address && card.location.length)
         .container
           .row
             .map_img.col-md-6.col-sm-12.col-xs-12.col-md-offset-3
@@ -100,6 +100,7 @@ html
               a.btn.btn-default.center-block(style="margin: 10px 0;")&attributes(map_link_attrs)
                 i.glyphicon.glyphicon-screenshot
                 | 地图导航
+
       footer(style="margin-top: 10px;")
         .container
           .row
