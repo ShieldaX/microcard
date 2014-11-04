@@ -33,9 +33,6 @@ module.exports = function (app) {
 
   // 会员账户系统
   app.namespace('/user', function () {
-    // app.get('/', function (req, res) {
-    //   res.send('GET user');
-    // });
     // 用户注册
     app.get('/signup', auth.avoidRepeatSignin, user.new);
     app.post('/signup', user.create);
@@ -44,6 +41,12 @@ module.exports = function (app) {
     app.post('/signin', user.authenticate);
     // 注销登录
     app.get('/signout', auth.requireAuthentication, user.logout);
+
+    app.get('/forgot', function (req, res) {
+      res.render('user/forgot');
+    });
+
+    app.post('/forgot', user.resetPasswd);
   });
 
   // 前台业务逻辑端

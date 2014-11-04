@@ -4,6 +4,8 @@
 
 // 引入依赖
 var passport = require('passport');
+var async = require('async');
+var crypto = require('crypto');
 
 // 引入模型
 var User = require('../models/user');
@@ -58,4 +60,9 @@ exports.logout = function (req, res) {
   //res.redirect(req.headers.referer || '/');
   req.flash('info', '您已注销');
   res.redirect('/user/signin');
+};
+
+// 安全
+exports.resetPasswd = function (req, res, next) {
+  //
 };

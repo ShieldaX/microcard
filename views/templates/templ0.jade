@@ -86,20 +86,25 @@ html
             p.text-center
               | #{card.bio}
       if (card.address && card.location.length)
+
+        - var point = card.location
+        - var marker = {lng: point[0], lat: point[1]};
+        - var marker_img = marker.lng+','+marker.lat;
+        - var marker_link = marker.lat+','+marker.lng;
+        - var labels = card.company || '我的位置';
+        - var labelStyle = '&labels='+marker_img+'&labelStyles='+labels+',0,14,0xff0000,0xffffff,1';
+        - var map_img_attrs = {'src': 'http://api.map.baidu.com/staticimage?&scale=2&center='+marker_img+'&markers='+marker_img+'&width=320&height=240&zoom=14&copyright=1&markerStyles=l,,red'};
+        - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title='+labels+'&content=地址&output=html&src=vc_client', 'target': '_blank'};
+
         .container
           .row
             .map_img.col-md-6.col-sm-12.col-xs-12.col-md-offset-3
-              - var marker = {lng: '121.46236', lat: '31.253631'};
-              - var marker_img = marker.lng+','+marker.lat;
-              - var marker_link = marker.lat+','+marker.lng;
-              - var map_img_attrs = {'src': 'http://api.map.baidu.com/staticimage?&scale=2&center='+marker_img+'&markers='+marker_img+'&width=320&height=240&zoom=14&copyright=1&markerStyles=m,,red'};
-              - var map_link_attrs = {'href': 'http://api.map.baidu.com/marker?location='+marker_link+'&title=我的位置&content=地址&output=html', 'target': '_blank'};
               a&attributes(map_link_attrs)
                 img.img-responsive.img-thumbnail.img-rounded.center-block.map-img&attributes(map_img_attrs)
             .col-md-6.col-md-offset-3.col-sm-12.col-xs-12
               a.btn.btn-default.center-block(style="margin: 10px 0;")&attributes(map_link_attrs)
-                i.glyphicon.glyphicon-screenshot
                 | 地图导航
+                i.fa.fa-arrow-circle-right
 
       footer(style="margin-top: 10px;")
         .container

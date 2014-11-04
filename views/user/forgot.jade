@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  .container
+    .col-sm-6.col-sm-offset-3
+      include ../includes/message
+
+      h1
+        span.fa.fa-question-circle
+        |  忘记密码
+      br
+      form#signin_form(method="POST", role="form")
+          .form-group
+            label(for='email') 账户邮箱：
+            input.form-control(type="email", name="email", placeholder="请输入登录所用邮箱地址", autofocus, required)
+          button.btn.btn-danger(type="submit", title="点击发送重置密码邮件") 重置密码
+          | &nbsp;&nbsp;&nbsp;&nbsp;
+          a.btn.btn-default(href='/', title="点击返回") 取 消&nbsp;
+      hr
+      p.small
