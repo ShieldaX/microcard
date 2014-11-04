@@ -17,19 +17,10 @@ module.exports = function (app) {
     res.render('index', { title: '微名片' });
   });
 
-  // app.get('/404', function (req, res) {
-  //   console.log('404 handler..')
-  //   res.render('404', {
-  //     status: 404,
-  //     title: '页面不存在',
-  //   });
-  // });
-
-  // app.get('/upload', function (req, res) {
-  //   res.render('upload', {title: '上传图片'});
-  // });
-
-  // app.post('/upload', upload.handleAvatar);
+  // 会员第三方登录
+  app.namespace('/auth', function () {
+    app.get('/', function (req, res) { res.render('user/auth'); });
+  });
 
   // 会员账户系统
   app.namespace('/user', function () {
