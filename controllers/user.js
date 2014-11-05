@@ -22,16 +22,22 @@ exports.new = function (req, res) {
   res.render('user/register', {});
 };
 
-exports.create = function (req, res) {
+exports.create = function (req, res, next) {
   var user = new User({
-      // 'local.username': req.body.username,
       'local.email': req.body.email,
       'local.password': req.body.password
     });
 
-  user.save(function(err) {
-    req.logIn(user, function(err) {
-      res.redirect('/');
+  User.findOne({'local.email': user.local.email}, function (err, existingUser) {
+    if (err) return next(err);
+    if (existingUser) {   // 存在同名本地用户
+      req.flash('error', '此用户已注册');
+      return res.redirect('back');
+    }
+    user.save(function(err) {
+      req.logIn(user, function(err) {
+        res.redirect('/');
+      });
     });
   });
 };
@@ -78,12 +84,12 @@ exports.sendResetMail = function (req, res, next) {
     function(token, done) {
       User.findOne({ 'local.email': req.body.email }, function(err, user) {
         if (!user) {
-          req.flash('error', 'No account with that email address exists.');
+          req.flash('error', '无效的账号！');
           return res.redirect('/user/forgot');
         }
 
         user.local.resetPasswordToken = token;
-        user.local.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        user.local.resetPasswordExpires = Date.now() + 3600000 * 2; // 1 hour
 
         user.save(function(err) {
           done(err, token, user);
@@ -101,15 +107,15 @@ exports.sendResetMail = function (req, res, next) {
 
       var mailOptions = {
         to: user.email,
-        from: 'HT labs <shieldax@gmail.com>',
-        subject: 'Node.js Password Reset',
-        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        from: '微名片 <shieldax@gmail.com>',
+        subject: '重置密码',
+        text: '你好，应您的申请重置密码的请求发送此邮件。\n\n' +
+          '请点击以下链接设置新密码。\n\n' +
           'http://' + req.headers.host + '/user/reset/' + token + '\n\n' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          '(如果无法点击该URL链接地址，请将它复制并粘帖到浏览器的地址输入框，然后单击回车即可。)注意:请您在收到邮件2小时内使用，否则该链接将会失效。\n'
       };
       transporter.sendMail(mailOptions, function(err) {
-        req.flash('info', '有一封邮件已经发送到 ' + user.email + ' ，请按照邮件中的提示操作');
+        req.flash('info', '重置密码链接已经发送到 ' + user.email + ' ，请及时登录到您的邮箱重置您的密码！');
         done(err, 'done');
       });
     }
@@ -122,7 +128,7 @@ exports.sendResetMail = function (req, res, next) {
 exports.resetPasswd = function (req, res, next) {
   User.findOne({ 'local.resetPasswordToken': req.params.token, 'local.resetPasswordExpires': { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      req.flash('error', '重置链接无效或已经过期');
+      req.flash('error', '重置链接无效或已经过期！');
       return res.redirect('/user/forgot');
     }
     res.render('user/reset', {
@@ -136,7 +142,7 @@ exports.doResetPasswd = function (req, res, next) {
     function(done) {
       User.findOne({ 'local.resetPasswordToken': req.params.token, 'local.resetPasswordExpires': { $gt: Date.now() } }, function(err, user) {
         if (!user) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
+          req.flash('error', '重置链接无效或已经过期！');
           return res.redirect('back');
         }
         // 更新安全数据
@@ -161,13 +167,13 @@ exports.doResetPasswd = function (req, res, next) {
       });
       var mailOptions = {
         to: user.email,
-        from: 'HT labs <shieldax@gmail.com>',
-        subject: 'Your password has been changed',
-        text: 'Hello,\n\n' +
-          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+        from: '微名片 <shieldax@gmail.com>',
+        subject: '您的密码已重置',
+        text: '您好，\n\n' +
+          '您的注册账户 ' + user.email + ' 密码已成功重置，特此通知。\n'
       };
       transporter.sendMail(mailOptions, function(err) {
-        req.flash('success', 'Success! Your password has been changed.');
+        // req.flash('success', '您的密码已成功重置！');
         console.log('密码已重置');
         done(err);
       });
