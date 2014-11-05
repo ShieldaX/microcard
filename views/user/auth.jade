@@ -14,14 +14,19 @@ block content
       .col-md-6.col-md-offset-3
         .col-md-4.col-md-offset-2.col-sm-4.col-sm-offset-2
           p
-            a.btn.btn-danger.btn-block(href='/auth/weibo')
+            a.btn.btn-danger.btn-block.disabled(href='/auth/weibo')
               i.fa.fa-weibo.fa-fw.fa-lg
               |  使用微博登陆&nbsp;
         .col-md-4.col-sm-4
           p
+            a.btn.btn-default.btn-block(href='/user/auth/github')
+              i.fa.fa-github.fa-fw.fa-lg
+              |  使用GitHub登陆&nbsp;
+        //- .col-md-4.col-sm-4
+          p
             a.btn.btn-primary.btn-block(href='/auth/qq')
               i.fa.fa-qq.fa-fw.fa-lg
-              |  使用QQ登陆&nbsp;
+              |  使用 QQ 登陆&nbsp;
 
     hr
     p.small

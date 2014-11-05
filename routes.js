@@ -1,5 +1,6 @@
 // 路由分配
 var user = require('./controllers/user');
+var passport = require('passport');
 var admin = require('./controllers/admin');
 var card = require('./controllers/card');
 var license = require('./controllers/license');
@@ -33,11 +34,29 @@ module.exports = function (app) {
     // 注销登录
     app.get('/signout', auth.requireAuthentication, user.logout);
 
-    app.get('/forgot', function (req, res) {
-      res.render('user/forgot');
-    });
+    app.get('/forgot', user.forgot);
+    app.post('/forgot', user.sendResetMail);
 
-    app.post('/forgot', user.resetPasswd);
+    app.get('/reset/:token', user.resetPasswd);
+    app.post('/reset/:token', user.doResetPasswd);
+
+    app.namespace('/auth', function () {
+      app.get('/', function (req, res) {
+        res.render('user/auth', {title: '快捷登录', error: req.flash('error')});
+      });
+
+      app.get('/github', passport.authenticate('github'));
+      app.get('/github/callback',
+        passport.authenticate('github', {
+          failureRedirect: '/user/auth',
+          failureFlash: '授权被取消'
+        }),
+        function (req, res) {
+          console.log(req.user);
+          res.redirect('/');
+        }
+      );
+    });
   });
 
   // 前台业务逻辑端

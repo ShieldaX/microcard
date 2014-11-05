@@ -10,16 +10,16 @@ var bodyParser = require('body-parser');
 var flash = require('connect-flash');
 var multer = require('multer')
 
-
 // 路由依赖
 require('express-namespace')
 var routes = require('./routes');
 
 var MongoStore = require('connect-mongo')(session);
 
-// 使用passport本地策略完成用户认证和授权
+// 使用passport完成用户认证和授权
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
 
 var db = require('./models/db');
 
@@ -73,10 +73,98 @@ if (!config.debug) {
 
 // requires the model with Passport-Local Mongoose plugged in
 var User = require('./models/user');
-passport.use(User.createStrategy());
+// passport.use(User.createStrategy());
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  function(email, password, done) {
+    User.findOne({ 'local.email': email }, function(err, user) {
+      if (err) return done(err);
+      if (!user) return done(null, false, { message: '账户和密码不匹配' });
+      user.comparePassword(password, function(err, isMatch) {
+        if (isMatch) {
+          return done(null, user);
+        } else {
+          return done(null, false, { message: '账户和密码不匹配' });
+        }
+      });
+    });
+  }
+));
+
+passport.use(new GitHubStrategy({
+    clientID: config.oauth.github.client_id,
+    clientSecret: config.oauth.github.client_secret,
+    callbackURL: config.oauth.github.callback,
+    passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+  },
+  function(req, accessToken, refreshToken, profile, done) {
+    // asynchronous
+    process.nextTick(function() {
+      if (!req.user) {
+        // Not logged-in. Authenticate based on GitHub account.
+        User.findOne({'github.id': profile.id}, function (err, user) {
+          // 如果发生了错误，直接返回出错信息
+          if (err) return done(err);
+
+          // 找到了已使用GitHub登录的用户，更新其第三方登录信息
+          if (user) {
+            // console.log('更新用户');
+            user.github.token = accessToken;
+            user.github.email = profile.emails[0].value;
+            user.github.name = profile.username;
+            user.save(function (err) {
+              if (err) throw err;
+              return done(null, user);
+            });
+          } else {
+            // console.log('创建新用户');
+            var newUser = new User({
+              github: {
+                id: profile.id,
+                token: accessToken,
+                email: profile.emails[0].value,
+                name: profile.username
+              }
+            });
+            newUser.save(function (err) {
+              if (err) throw err;
+              return done(null, newUser);
+            });
+          }
+
+        });
+      } else {
+        // Logged in. Associate GitHub account with user.  Preserve the login
+        // state by supplying the existing user after association.
+        // 绑定当前用户
+        var user = req.user;
+        user.github.id = profile.id;
+        user.github.token = accessToken;
+        user.github.email = profile.emails[0].value;
+        user.github.name = profile.username;
+        user.save(function (err) {
+          if (err) throw err;
+          return done(null, user);
+        });
+      }
+    });
+
+  }
+));
+
 // use static serialize and deserialize of model for passport session support
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 // routes
 routes(app);
