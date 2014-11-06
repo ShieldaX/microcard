@@ -3,11 +3,9 @@
 /**
  * Module dependencies.
  */
-var validator = require('validator');
+// var validator = require('validator');
 var bcrypt = require('bcrypt-nodejs');
-var nodemailer = require('nodemailer');
-var async = require('async');
-var crypto = require('crypto');
+// var crypto = require('crypto');
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema
@@ -24,6 +22,8 @@ var UserSchema = new Schema({
       trim: true
     },
     password: String,
+    activeToken: String,
+    activeExpires: Date,
     resetPasswordToken: String,
     resetPasswordExpires: Date
   },
@@ -58,7 +58,14 @@ var UserSchema = new Schema({
  * Virtuals
  */
 UserSchema.virtual('email').get(function () {
-  return this.local.email || this.github.email;
+  return this.local.email || this.github.email || '';
+});
+
+UserSchema.virtual('isActive').get(function () {
+  if (this.local && this.local.activeToken) {
+    return false;
+  }
+  return true;
 });
 
 /**
@@ -86,10 +93,6 @@ UserSchema.pre('save', function(next) {
 /**
  * Statics definition
  */
-
-// UserSchema.statics.findByEmail = function (email, callback) {
-//   return this.findOne({email: email}, callback);
-// };
 
 // UserSchema.statics.isAdmin = function (id, calback) {
 //   this.findOne({_id: id, role: 'administrator'}, function (error, doc) {

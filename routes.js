@@ -33,13 +33,16 @@ module.exports = function (app) {
     app.post('/signin', user.authenticate);
     // 注销登录
     app.get('/signout', auth.requireAuthentication, user.logout);
-
+    // 用户激活
+    app.get('/confirm', auth.requireAuthentication, user.confirm);
+    app.post('/confirm', auth.requireAuthentication, user.sendActiveMail);
+    app.get('/active/:token', user.active);
+    // 重置密码
     app.get('/forgot', user.forgot);
     app.post('/forgot', user.sendResetMail);
-
     app.get('/reset/:token', user.resetPasswd);
     app.post('/reset/:token', user.doResetPasswd);
-
+    // 快捷登陆
     app.namespace('/auth', function () {
       app.get('/', function (req, res) {
         res.render('user/auth', {title: '快捷登录', error: req.flash('error')});
@@ -52,7 +55,6 @@ module.exports = function (app) {
           failureFlash: '授权被取消'
         }),
         function (req, res) {
-          console.log(req.user);
           res.redirect('/');
         }
       );
@@ -65,7 +67,7 @@ module.exports = function (app) {
 
     app.get('/', card.master);
 
-    app.get('/validate', function (req, res) {
+    app.get('/validate', auth.ensureActiveUser, function (req, res) {
       res.render('card/validate', {error: req.flash('error')});
     });
 
@@ -120,7 +122,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('*', function(req, res) {
+  app.all('*', function(req, res) {
     console.log(req.path);
     console.log('404 handler..');
     res.render('404', {

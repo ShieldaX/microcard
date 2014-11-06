@@ -34,17 +34,8 @@ exports.loadUser = function (req, res, next) {
 
 exports.requireAdmin = function (req, res, next) {
   if (!!req.user) {
-    // User.isAdmin(user.id, function (error, admin) {
-    //   if (error || !admin) {
-    //     req.flash('error', '需要管理员权限！'); // error flash message
-    //     res.redirect('back'); // res.redirect('/admin/login');
-    //   } else {
-    //     next();
-    //   }
-    // });
-    // console.log(config);
     //TODO: TOO BAD 临时解决办法
-    var isAdmin = config.administrators && config.administrators.length && config.administrators.indexOf(req.user.email) >= 0;
+    var isAdmin = config.administrators && config.administrators.length && config.administrators.indexOf(req.user.local.email) >= 0;
     if (isAdmin) {
       next();
     } else {
@@ -57,17 +48,19 @@ exports.requireAdmin = function (req, res, next) {
   }
 }
 
-/*
-exports.requireLicense = function (req, res, next) {
-  if (!!req.session.license) {
-    console.log(req.session.license);
-    next();
+// 用户账户已激活
+exports.ensureActiveUser = function (req, res, next) {
+  var user = req.user;
+  if (user) {
+    if (!user.isActive) {
+      res.redirect('/user/confirm');
+    } else {
+      next();
+    }
   } else {
-    req.flash('error', '验证已过期，请重新进行验证');
-    res.redirect('/card/validate');
+    res.redirect('/user/signin');
   }
 };
-*/
 
 exports.loadUserCardById = function (req, res, next) {
   var uid = req.user.id;

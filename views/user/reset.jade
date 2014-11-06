@@ -7,17 +7,50 @@ block content
 
       h1
         span.fa.fa-question-circle
-        |  重置密码
+        |  设置新密码
       br
       form#reset_form(method="POST", role="form")
           .form-group
             label(for='password') 新密码：
-            input.form-control(type="password", name="password", placeholder="输入新密码", autofocus, required)
+            input#password.form-control(type="password", name="password", placeholder="输入新密码", autofocus, required)
+            p.help-block
+              small 以字母开头，长度在6~18之间，只能包含字符、数字和下划线
           .form-group
             label(for='confirm') 确认新密码：
-            input.form-control(type="password", name="confirm", placeholder="再次输入新密码", required)
+            input#password_confirm.form-control(type="password", name="password_confirm", placeholder="再次输入新密码")
           button.btn.btn-danger(type="submit") 使用新密码
           | &nbsp;&nbsp;&nbsp;&nbsp;
           a.btn.btn-default(href='/', title="点击返回") 取 消&nbsp;
       hr
       p.small
+
+append scripts
+  script(type="text/javascript", src="/components/jquery-validation/dist/jquery.validate.min.js")
+  script(type="text/javascript", src="/javascripts/validator_methods.js")
+  script.
+    $("#reset_form").validate({
+      //- debug: true,
+      errorClass: "text-danger",
+      errorElement: "span",
+      errorPlacement: function (error, element) {
+        error.insertAfter(element.prev());
+      },
+      rules: {
+        password: {
+          ispassword: true,
+          required: true
+        },
+        password_confirm: {
+          equalTo: '#password'
+        }
+      },
+      messages: {
+        password: {
+          required: "请填写密码以保护您的账户安全",
+          ispassword: "密码格式不正确"
+        },
+        password_confirm: {
+          equalTo: '您两次输入的密码不一致，请确认'
+        }
+      }
+    });
