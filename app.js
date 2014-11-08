@@ -93,7 +93,7 @@ passport.use(new LocalStrategy({
     });
   }
 ));
-
+/*
 passport.use(new GitHubStrategy({
     clientID: config.oauth.github.client_id,
     clientSecret: config.oauth.github.client_secret,
@@ -154,7 +154,7 @@ passport.use(new GitHubStrategy({
 
   }
 ));
-
+*/
 // use static serialize and deserialize of model for passport session support
 passport.serializeUser(function(user, done) {
   done(null, user.id);

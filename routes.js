@@ -43,6 +43,7 @@ module.exports = function (app) {
     app.get('/reset/:token', user.resetPasswd);
     app.post('/reset/:token', user.doResetPasswd);
     // 快捷登陆
+    /*
     app.namespace('/auth', function () {
       app.get('/', function (req, res) {
         res.render('user/auth', {title: '快捷登录', error: req.flash('error')});
@@ -58,7 +59,7 @@ module.exports = function (app) {
           res.redirect('/');
         }
       );
-    });
+    });*/
   });
 
   // 前台业务逻辑端
