@@ -1,4 +1,5 @@
 var _ = require("underscore");
+// var qrcode = require('yaqrcode');
 
 var License = require('../models/license');
 var Card = require('../models/card');

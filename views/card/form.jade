@@ -146,7 +146,7 @@ block content
           .form-group
             label.control-label.col-md-2
             .col-md-7
-              button.btn.btn-success(type="submit") 同 步 名 片&nbsp;
+              button#sync.btn.btn-success(type="submit") 同 步 名 片&nbsp;
                 i.fa.fa-fresh
               span &nbsp;&nbsp;
               a.btn.btn-default(href="/") 取 消
@@ -159,6 +159,10 @@ append scripts
         $('#avatar_btn').addClass('disabled');
         $('#menu_btn').addClass('disabled');
       }
+
+      $('#name').change(function (event) {
+        $('#sync').toggleClass('disabled', !$(this).val());
+      });
     });
   script(type="text/javascript", src="//cdn.staticfile.org/jquery-validate/1.12.0/jquery.validate.min.js")
   script.
