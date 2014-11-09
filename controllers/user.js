@@ -6,8 +6,8 @@
 var passport = require('passport');
 var async = require('async');
 var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
+// var nodemailer = require('nodemailer');
+// var smtpTransport = require('nodemailer-smtp-transport');
 
 
 // 引入模型
