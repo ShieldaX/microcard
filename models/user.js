@@ -21,11 +21,7 @@ var UserSchema = new Schema({
       lowercase: true,
       trim: true
     },
-    password: String,
-    activeToken: String,
-    activeExpires: Date,
-    resetPasswordToken: String,
-    resetPasswordExpires: Date
+    password: String
   },
   github: {
     id: String,

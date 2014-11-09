@@ -47,7 +47,7 @@ exports.requireAdmin = function (req, res, next) {
     res.redirect('back'); // res.redirect('/admin/login');
   }
 }
-
+/*
 // 用户账户已激活
 exports.ensureActiveUser = function (req, res, next) {
   var user = req.user;
@@ -60,7 +60,7 @@ exports.ensureActiveUser = function (req, res, next) {
   } else {
     res.redirect('/user/signin');
   }
-};
+};*/
 
 exports.loadUserCardById = function (req, res, next) {
   var uid = req.user.id;

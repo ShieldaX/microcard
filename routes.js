@@ -33,7 +33,7 @@ module.exports = function (app) {
     app.post('/signin', user.authenticate);
     // 注销登录
     app.get('/signout', auth.requireAuthentication, user.logout);
-    // 用户激活
+    /* 用户激活
     app.get('/confirm', auth.requireAuthentication, user.confirm);
     app.post('/confirm', auth.requireAuthentication, user.sendActiveMail);
     app.get('/active/:token', user.active);
@@ -41,7 +41,7 @@ module.exports = function (app) {
     app.get('/forgot', user.forgot);
     app.post('/forgot', user.sendResetMail);
     app.get('/reset/:token', user.resetPasswd);
-    app.post('/reset/:token', user.doResetPasswd);
+    app.post('/reset/:token', user.doResetPasswd);*/
     // 快捷登陆
     /*
     app.namespace('/auth', function () {
@@ -68,7 +68,7 @@ module.exports = function (app) {
 
     app.get('/', card.master);
 
-    app.get('/validate', auth.ensureActiveUser, function (req, res) {
+    app.get('/validate', function (req, res) {
       res.render('card/validate', {error: req.flash('error')});
     });
 

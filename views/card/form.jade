@@ -17,29 +17,40 @@ block content
           - var avatar_src = card.avatar.source ? "/uploads/avatar/" + card.avatar.source : "//placehold.it/140";
           img.avatar.img-thumbnail.img-circle.center-block.img-responsive(src=avatar_src, style="width: 140px; height: 140px;")
           br
-          .btn-group
-            a.btn.btn-default#avatar_btn(href="/card/"+card.id+'/avatar')
-              span.fa.fa-fw.fa-smile-o
-              |  设置头像
-            a.btn.btn-default.dropdown-toggle#menu_btn(data-toggle="dropdown")
-              span.fa.fa-caret-down
-            ul.dropdown-menu
-              li
-                a(href="./"+card.id+"/location")
-                  span.fa.fa-fw.fa-map-marker
-                  |  标注地图位置
-              li
-                a(href="./"+card.id+"/template")
-                  span.fa.fa-fw.fa-magic
-                  |  选择主题风格
-              li
-                a(href="/card/"+card.id+'/share')
-                  span.fa.fa-fw.fa-qrcode
-                  |  查看二维码
-              li
-                a(href="/card/"+card.id+'/share')
-                  span.fa.fa-fw.fa-share
-                  |  分享
+          .col-md-8.col-md-offset-2
+            .list-group.text-left
+              a.list-group-item(href="/card/"+card.id+'/avatar')
+                span.fa.fa-fw.fa-smile-o
+                |  设置头像
+              a.list-group-item(href="./"+card.id+"/location")
+                span.fa.fa-fw.fa-map-marker
+                |  标注地图位置
+              a.list-group-item(href="./"+card.id+"/template")
+                span.fa.fa-fw.fa-magic
+                |  选择主题风格
+              a.list-group-item#publish_btn(href="/card/"+card.id+'/share')
+                span.fa.fa-fw.fa-share
+                |  发布和分享
+
+            //- a.btn.btn-default.dropdown-toggle#menu_btn(data-toggle="dropdown")
+            //-   span.fa.fa-caret-down
+            //- ul.dropdown-menu
+            //-   li
+            //-     a(href="./"+card.id+"/location")
+            //-       span.fa.fa-fw.fa-map-marker
+            //-       |  标注地图位置
+            //-   li
+            //-     a(href="./"+card.id+"/template")
+            //-       span.fa.fa-fw.fa-magic
+            //-       |  选择主题风格
+            //-   li
+            //-     a(href="/card/"+card.id+'/share')
+            //-       span.fa.fa-fw.fa-qrcode
+            //-       |  查看二维码
+            //-   li
+            //-     a(href="/card/"+card.id+'/share')
+            //-       span.fa.fa-fw.fa-share
+            //-       |  分享
 
           hr.hidden-md.hidden-lg
       .col-md-8
@@ -104,10 +115,12 @@ block content
                 input.form-control(type="text", id="address", name="address", placeholder="街道楼座门牌", value=card.address)
                 span.input-group-addon
                   if marked
-                    i.fa.fa-map-marker.text-danger(title="地图已标注")
+                    a(href="./"+card.id+"/location")
+                      i.fa.fa-map-marker.text-danger(title="地图已标注")
                     //- |  已标注
                   else
-                    i.fa.fa-map-marker.text-muted(title="地图未标注")
+                    a(href="./"+card.id+"/location")
+                      i.fa.fa-map-marker.text-muted(title="地图未标注")
                     //- |  未标注
           //- fieldset
             h6.text-muted 社交账号
@@ -146,7 +159,7 @@ block content
           .form-group
             label.control-label.col-md-2
             .col-md-7
-              button#sync.btn.btn-success(type="submit") 同 步 名 片&nbsp;
+              button#sync.btn.btn-success(type="submit") &nbsp;保 存&nbsp;
                 i.fa.fa-fresh
               span &nbsp;&nbsp;
               a.btn.btn-default(href="/") 取 消
@@ -156,8 +169,8 @@ append scripts
   script.
     $(document).ready(function() {
       if (!$('#name').val()) {
-        $('#avatar_btn').addClass('disabled');
-        $('#menu_btn').addClass('disabled');
+        $('#publish_btn').addClass('disabled').removeAttr('href');
+        //- $('#menu_btn').addClass('disabled');
       }
 
       $('#name').change(function (event) {
