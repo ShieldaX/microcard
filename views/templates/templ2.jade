@@ -144,3 +144,49 @@ html
           console.log('opacity: '+opacity);
           $('.top_bg.blur').css({opacity: opacity + ''});
         });
+
+      script.
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+          var share_url = window.location.href;
+          var imageUrl = window.location.origin+"/uploads/avatar/"+$('#share_img').val();
+          var title = $('#share_title').val();
+          var desc = $("#share_content").val();
+
+          // 发送给好友
+          WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+            WeixinJSBridge.invoke('sendAppMessage', {
+              "img_url": imageUrl,
+              "img_width": "120",
+              "img_height": "120",
+              "link": share_url,
+              "desc": desc ,
+              "title": title
+            }, function (res) {});
+          });
+
+          // 分享到朋友圈
+          WeixinJSBridge.on('menu:share:timeline', function (argv) {
+
+            var desc = $("#share_content").val();
+
+            WeixinJSBridge.invoke('shareTimeline', {
+              "img_url": imageUrl,
+              "img_width": "120",
+              "img_height": "120",
+              "link": share_url ,
+              "desc":  desc,
+              "title": title
+            }, function (res) {});
+
+          });
+
+          // 分享到微博
+          WeixinJSBridge.on('menu:share:weibo', function (argv) {
+            WeixinJSBridge.invoke('shareWeibo', {
+              "content": desc,
+              "url": share_url
+            }, function (res) {});
+          });
+
+        }, false);
