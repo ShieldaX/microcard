@@ -20,6 +20,7 @@ var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
+var WeiboStrategy = require('passport-weibo').Strategy;
 
 var db = require('./models/db');
 
@@ -93,6 +94,72 @@ passport.use(new LocalStrategy({
     });
   }
 ));
+
+var WEIBO_CLIENT_ID = '43664777';
+var WEIBO_CLIENT_SECRET = '80cbe41c3e9db32f806e3a603a3c9ee1';
+var WEIBO_CLIENT_CALLBACK = 'http://127.0.0.1:8080/user/auth/weibo/callback';
+passport.use(new WeiboStrategy({
+    clientID: WEIBO_CLIENT_ID,
+    clientSecret: WEIBO_CLIENT_SECRET,
+    callbackURL: WEIBO_CLIENT_CALLBACK,
+    passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+  },
+  function(req, accessToken, refreshToken, profile, done) {
+    // asynchronous
+    process.nextTick(function() {
+      console.log(profile);
+      if (!req.user) {
+        // Not logged-in. Authenticate based on weibo account.
+        User.findOne({'weibo.id': profile.id}, function (err, user) {
+          // 如果发生了错误，直接返回出错信息
+          if (err) return done(err);
+
+          // 找到了已使用weibo登录的用户，更新其第三方登录信息
+          if (user) {
+            // console.log('更新用户');
+            user.weibo.token = accessToken;
+            // user.weibo.email = profile.emails[0].value;
+            user.weibo.name = profile._raw.name;
+            user.save(function (err) {
+              if (err) throw err;
+              return done(null, user);
+            });
+          } else {
+            // console.log('创建新用户');
+            var newUser = new User({
+              weibo: {
+                id: profile.id,
+                token: accessToken,
+                // email: profile.emails[0].value,
+                name: profile.username
+              }
+            });
+            newUser.save(function (err) {
+              if (err) throw err;
+              return done(null, newUser);
+            });
+          }
+
+        });
+      } else {
+        // Logged in. Associate Weibo account with user.  Preserve the login
+        // state by supplying the existing user after association.
+        // 绑定当前用户
+        var user = req.user;
+        user.weibo.id = profile.id;
+        user.weibo.token = accessToken;
+        // user.weibo.email = profile.emails[0].value;
+        user.weibo.name = profile._raw.name;
+        user.save(function (err) {
+          if (err) throw err;
+          return done(null, user);
+        });
+      }
+    });
+
+  }
+));
+
 /*
 passport.use(new GitHubStrategy({
     clientID: config.oauth.github.client_id,

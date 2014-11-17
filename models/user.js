@@ -54,7 +54,7 @@ var UserSchema = new Schema({
  * Virtuals
  */
 UserSchema.virtual('email').get(function () {
-  return this.local.email || this.github.email || '';
+  return this.local.email || this.github.email || this.weibo.name;
 });
 
 UserSchema.virtual('isActive').get(function () {

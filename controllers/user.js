@@ -71,3 +71,28 @@ exports.logout = function (req, res) {
   req.flash('info', '您已注销');
   res.redirect('/user/signin');
 };
+
+// 第三方登录
+exports.weiboCancel = function (req, res, next) {
+  var params = req.params;
+  var weiboId = params.uid;
+  console.log(params);
+  // TODO: 验证appkey
+  User.findOne({'weibo.id': weiboId}, function (err, user) {
+    if (err) return next(err);
+    // 存在此用户, 删除
+    if (user) {
+      console.log('发现微博用户', weiboId);
+      user.weibo.id = undefined;
+      user.weibo.token = undefined;
+      user.weibo.name = undefined;
+      user.save(function (err) {
+        if (err) return next(err);
+        res.redirect('/user/auth');
+      });
+    } else {
+      console.log('未发现存在此微博用户');
+      res.redirect('/user/auth');
+    }
+  });
+};

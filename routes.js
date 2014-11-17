@@ -43,7 +43,7 @@ module.exports = function (app) {
     app.get('/reset/:token', user.resetPasswd);
     app.post('/reset/:token', user.doResetPasswd);*/
     // 快捷登陆
-    /*
+
     app.namespace('/auth', function () {
       app.get('/', function (req, res) {
         res.render('user/auth', {title: '快捷登录', error: req.flash('error')});
@@ -59,7 +59,21 @@ module.exports = function (app) {
           res.redirect('/');
         }
       );
-    });*/
+
+      app.get('/weibo', passport.authenticate('weibo'));
+      app.get('/weibo/callback',
+        passport.authenticate('weibo', {
+          failureRedirect: '/user/auth',
+          failureFlash: '授权被取消'
+        }),
+        function (req, res) {
+          res.redirect('/');
+        }
+      );
+
+      app.get('/weibo/cancel', user.weiboCancel);
+
+    });
   });
 
   // 前台业务逻辑端
