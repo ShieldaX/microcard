@@ -1,0 +1,126 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0")
+    - title = title ? title : '微名片'
+    title= title
+    block styles
+      //- link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')
+      link(rel='stylesheet', href='//cdn.staticfile.org/twitter-bootstrap/3.3.0/css/bootstrap.min.css')
+      //- link(rel='stylesheet', href='/components/font-awesome/css/font-awesome.min.css')
+      link(rel='stylesheet', href='//cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/landing-page.css')
+
+  body
+    //- Navigation
+    nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
+      .container
+        //- Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle(data-toggle="collapse", data-target="#menu-items-list")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand
+            span.fa.fa-qrcode.fa-lg
+            |  微名片
+        .collapse.navbar-collapse#menu-items-list
+          ul.nav.navbar-nav.navbar-right
+            if (locals.user)
+              li
+                a
+                  i 欢迎你，
+                  | #{user.email}
+              li
+                a(href="/user/signout")
+                  span.fa.fa-sign-out.fa-lg.text-danger
+                  |  注销
+            else
+              li
+                a(href="/user/signin")
+                  span.fa.fa-sign-in.fa-lg
+                  |  登录
+              li
+                a(href="/user/signup")
+                  span.fa.fa-user.fa-lg
+                  |  注册
+            li
+              a(target="_blank", href="https://www.evernote.com/shard/s179/sh/e45eb40e-e025-49a3-b9e7-72fabc79557d/45d185a09f7c12f7f65549a3cd7736a0")
+                span.fa.fa-question-circle.fa-lg.text-success
+                |  帮助
+    .intro-header
+      .container
+        .row
+          .col-lg-12
+            .intro-message
+              h1 开始使用微名片
+              h3 拓展你的人脉
+              hr.intro-divider
+              ul.list-inline
+                li
+                  a.btn.btn-default.btn-lg(href="/card")
+                    span.network-name 修改名片
+                li
+                  a.btn.btn-lg.btn-success(href="/card/validate")
+                    span.network-name 制作新名片
+                    | &nbsp;
+                    span.fa.fa-arrow-circle-right
+
+    .content-section-a
+      .container
+        .row
+          .col-lg-5.col-sm-6
+            hr.section-heading-spacer
+            .clearfix
+            h2.section-heading
+              | 摆脱方寸束缚，
+              br
+              | 让名片弹指间立体展现
+            p.lead.
+              传统纸质名片受到尺寸限制，客户记住的你只是一张扁平的名片。现在，通过微名片，
+              不论是初次见面的客户还是熟悉的朋友，可以更立体的了解你。
+          .col-lg-5.col-lg-offset-2.col-sm-6
+            img.img-responsive(src="http://ww1.sinaimg.cn/large/a71476e7tw1emiznof6p4j20p00jcjtu.jpg")
+
+    .content-section-b
+      .container
+        .row
+          .col-lg-5.col-lg-offset-1.col-sm-push-6.col-sm-6
+            hr.section-heading-spacer
+            .clearfix
+            h2.section-heading
+              | 随心随意，
+              br
+              | 建立你自己永久在线的人脉网络
+            p.lead.
+              最近更换了手机号码，却担心客户无法通过新的联系方式找到你。
+              今天，客户只要有你的微名片，就可以通过最新的联系方式找到你。
+          .col-lg-5.col-sm-pull-6.col-sm-6
+            img.img-responsive(src="http://ww3.sinaimg.cn/large/a71476e7tw1emizgi1w5mj20p00kxgnp.jpg")
+
+    .content-section-a
+      .container
+        .row
+          .col-lg-5.col-sm-6
+            hr.section-heading-spacer
+            .clearfix
+            h2.section-heading
+              | 更换主题模板，
+              br
+              | 让名片彰显你风格
+            p.lead.
+              觉得自己的名片太单调，或者想要尝试“另类”风格，没有问题，丰富的模板随意切换。
+          .col-lg-5.col-lg-offset-2.col-sm-6
+            img.img-responsive(src="http://ww3.sinaimg.cn/large/a71476e7tw1emizlz48xtj20p00gjtbs.jpg")
+
+    footer
+      .container
+        .row
+          .col-lg-12
+            p.text-center.text-muted.small &copy; 2014 HT Labs, All rights reserved.
+
+    script(type="text/javascript", src="//cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js")
+    script(type="text/javascript", src="//cdn.staticfile.org/twitter-bootstrap/3.3.0/js/bootstrap.min.js")

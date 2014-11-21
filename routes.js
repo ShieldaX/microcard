@@ -15,7 +15,7 @@ module.exports = function (app) {
 
   // 首页
   app.get('/', function (req, res) {
-    res.render('index', { title: '微名片' });
+    res.render('new_index', { title: '微名片' });
   });
 
   // 会员第三方登录
