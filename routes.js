@@ -36,12 +36,12 @@ module.exports = function (app) {
     /* 用户激活
     app.get('/confirm', auth.requireAuthentication, user.confirm);
     app.post('/confirm', auth.requireAuthentication, user.sendActiveMail);
-    app.get('/active/:token', user.active);
+    app.get('/active/:token', user.active);*/
     // 重置密码
     app.get('/forgot', user.forgot);
     app.post('/forgot', user.sendResetMail);
     app.get('/reset/:token', user.resetPasswd);
-    app.post('/reset/:token', user.doResetPasswd);*/
+    app.post('/reset/:token', user.doResetPasswd);
     // 快捷登陆
 
     app.namespace('/auth', function () {
