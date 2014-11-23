@@ -15,7 +15,23 @@ var config = {
   session_secret: 'microcard_o91$der.2',
   auth_cookie_name: 'microcard',
   port: 8081,
-  administrators: ['shieldax@gmail.com']
+  oauth: {
+    weibo: {
+      app_key: '43664777',
+      app_secret: '80cbe41c3e9db32f806e3a603a3c9ee1'
+    },
+    github: {
+      client_id: '98cc4a8b12d1bbb005e0',
+      client_secret: '74fd998bea35b13c744d72d53f6e609daabcd3b2',
+      callback: 'http://localhost:8080/user/auth/github/callback'
+    }
+  },
+  administrators: ['shieldax@gmail.com'],
+  site_domain: 'www.dililid.com',
+  mailgun: {
+    api_key: 'key-0c037b4df8bb453c97d8200f82d0f41d',
+    domain: 'noreply.dililid.com'
+  }
 };
 
 mkdirp('./public/uploads/images', function (err) {

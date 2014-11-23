@@ -6,10 +6,9 @@
 var passport = require('passport');
 var async = require('async');
 var crypto = require('crypto');
-// var nodemailer = require('nodemailer');
-// var smtpTransport = require('nodemailer-smtp-transport');
-var api_key = 'key-0c037b4df8bb453c97d8200f82d0f41d';
-var domain = 'noreply.dililid.com';
+var config = require('../config').config;
+var api_key = config.mailgun.api_key;
+var domain = config.mailgun.domain;
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 // 引入模型
@@ -136,7 +135,7 @@ exports.sendResetMail = function (req, res, next) {
         subject: '重置密码',
         text: '你好，\n\n' +
           '应阁下申请重置密码的请求发送此邮件。请点击以下链接设置新密码：\n\n' +
-          'http://' + req.headers.host + '/user/reset/' + token + '\n\n' +
+          'http://' + config.site_domain + '/user/reset/' + token + '\n\n' +
           '(如果无法点击该URL链接地址，请将它复制并粘帖到浏览器的地址输入框，然后单击回车即可。)\n\n注意:请您在收到邮件2小时内使用，否则该链接将会失效。\n\n系统发信，请勿回复'
       };
 
