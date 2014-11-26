@@ -47,7 +47,8 @@ html
                   dd.col.dim1half.text-left.padleft= card.email
                 if card.mobile
                   dt.col.dim1half.text-right.padright 手机
-                  dd.col.dim1half.text-left.padleft= card.mobile
+                  dd.col.dim1half.text-left.padleft
+                    a(href="tel:#{card.mobile}")= card.mobile
                 if card.phone
                   dt.col.dim1half.text-right.padright 电话
                   dd.col.dim1half.text-left.padleft= card.phone

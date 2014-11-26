@@ -51,7 +51,8 @@ html
               if card.mobile
                 li
                   i.glyphicon.glyphicon-phone
-                  | &nbsp;#{card.mobile}
+                  | &nbsp;
+                  a(href="tel:#{card.mobile}")= card.mobile
               if card.phone
                 li
                   i.glyphicon.glyphicon-phone-alt

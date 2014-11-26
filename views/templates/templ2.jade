@@ -1,5 +1,5 @@
 mixin display(key)
-  if (typeof key != 'undefined')
+  if (typeof key != 'undefined' && key)
     if block
       block
 
@@ -57,8 +57,8 @@ html
             .contact.col-xs-6
               p
                 i.glyphicon.glyphicon-phone
-                span= card.mobile
-          //- +display(card.mobile)
+                span
+                  a(href="tel:#{card.mobile}")= card.mobile
           +display(card.phone)
             .contact.col-xs-6
               p
